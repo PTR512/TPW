@@ -20,9 +20,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "View", "View\View.csproj", "{C6B5378C-9E01-40A7-AEB6-44E85D2290B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTest", "DataTest\DataTest.csproj", "{D77071C8-69F1-46B3-B029-756654AF412A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{AF4A53AA-F3FF-4019-8E37-25E9ECF46906} = {AF4A53AA-F3FF-4019-8E37-25E9ECF46906}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelTest", "ModelTest\ModelTest.csproj", "{35B8F091-1477-421A-B12D-9714ADD1E93F}"
 EndProject
