@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-namespace Logic
+namespace Data
 {
-    internal class Ball
+    internal class Ball : IBall
     {
         private float x;
         private float y;
@@ -22,19 +22,19 @@ namespace Logic
         public float X
         {
             get { return x; }
-            set { x = value; }
+            
         }
 
         public float Y
         {
             get { return y; }
-            set { y = value; }
+            
         }
 
         public float Radius
         {
             get { return radius; }
-            set { radius = value; }
+            
         }
 
         public float XSpeed
@@ -48,24 +48,19 @@ namespace Logic
             get { return ySpeed; }
             set { ySpeed = value; }
         }
-        public void Move(int xBoundary, int yBoundary)
+
+        public override void ChangeSpeed(float xSpeed, float ySpeed)
         {
-            if (xSpeed == 0 &&  ySpeed == 0) return;
-            if (!withinBoundaries(x + xSpeed, xBoundary))
-            {
-                xSpeed = -xSpeed;
-            }
-            if (!withinBoundaries(y + ySpeed, yBoundary))
-            {
-                ySpeed = -ySpeed;
-            }
+            this.XSpeed = xSpeed;
+            this.YSpeed = ySpeed;
+        }
+
+        private void Move()
+        {  
             x += xSpeed;
             y += ySpeed;
         }
-        private bool withinBoundaries(double position, int boundary) // on one axis
-        {
-            return 0 <= (position - radius) && (position + radius) <= boundary;
-        }
+        
       
     }
 }
