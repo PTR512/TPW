@@ -9,7 +9,7 @@ internal class BallManager : LogicAPI
         {
             float radius = Data.GetBallRadius();
             (float x, float y) = GenerateRandomBallPlacement();
-            Balls.Add(IBall.createInstance(x, y, radius, 0,0));
+            Balls.Add(IBall.CreateInstance(x, y, radius, 0,0));
         }
         
         

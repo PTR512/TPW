@@ -9,7 +9,7 @@ namespace Data
     public abstract class IBall
     {
         public abstract void ChangeSpeed(float xSpeed, float ySpeed);
-        public static IBall createInstance(float x, float y, float radius, float xSpeed, float ySpeed)
+        public static IBall CreateInstance(float x, float y, float radius, float xSpeed, float ySpeed)
         {
             return new Ball(x, y, radius, xSpeed, ySpeed);
         }
