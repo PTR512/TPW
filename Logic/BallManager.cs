@@ -31,7 +31,7 @@ internal class BallManager : LogicAPI
             ball.ChangeSpeed(0, 0);
         }
     }
-    private List<IBall> Balls { get; }
+    public override List<IBall> Balls { get; }
 
     public BallManager()
     {
@@ -58,5 +58,6 @@ internal class BallManager : LogicAPI
     {
         return 0 <= (pos - radius) && (pos + radius) <= boundary;
     }
+
 }
 
