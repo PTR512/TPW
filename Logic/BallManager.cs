@@ -2,14 +2,16 @@
 namespace Logic;
 internal class BallManager : LogicAPI
     {
+    // TODO: make observers thread-safe, 'lock' instruction i guess
     private DataAPI Data = DataAPI.CreateInstance();
+    private ISet<IObserver<IBall>> observers;
     public override void CreateBalls(int amount)
     {
         for (int i = 0; i < amount; i++)
         {
             float radius = Data.GetBallRadius();
             (float x, float y) = GenerateRandomBallPlacement();
-            Balls.Add(IBall.createInstance(x, y, radius, 0,0));
+            Balls.Add(IBall.CreateInstance(x, y, radius, 0,0));
         }
         
         
@@ -42,8 +44,8 @@ internal class BallManager : LogicAPI
     {
         Random random = new();
         float radius = Data.GetBallRadius();
-        float x = (float) random.NextDouble() * (Data.GetTableWidth() - radius) + radius;
-        float y = (float) random.NextDouble() * (Data.GetTableHeight() - radius) + radius;
+        float x = (float) random.NextDouble() * (Data.GetTableWidth() - 2 * radius) + radius;
+        float y = (float) random.NextDouble() * (Data.GetTableHeight() - 2 * radius) + radius;
         return (x, y);
     }
     private (float xSpeed, float ySpeed) GenerateRandomBallSpeed()
@@ -59,5 +61,21 @@ internal class BallManager : LogicAPI
         return 0 <= (pos - radius) && (pos + radius) <= boundary;
     }
 
+    public override IDisposable Subscribe(IObserver<IBall> observer)
+    {
+        observers.Add(observer);
+        return new Unsubscriber(observers, observer);
+    }
+
+    private class Unsubscriber(ISet<IObserver<IBall>> observers, IObserver<IBall> observer) : IDisposable
+    {
+        private readonly ISet<IObserver<IBall>> observers = observers;
+        private readonly  IObserver<IBall> observer = observer;
+
+        public void Dispose()
+        {
+            observers?.Remove(observer);
+        }  
+    }
 }
 
