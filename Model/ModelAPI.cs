@@ -1,5 +1,6 @@
 ﻿
 
+using Data;
 using System.Collections.ObjectModel;
 
 namespace Model
@@ -10,5 +11,10 @@ namespace Model
         public abstract void Start();
         public abstract void Stop();
         public abstract ObservableCollection<object> GetBalls();
+
+        public static ModelAPI CreateInstance()
+        {
+            return new Model();
+        }
     }
 }
