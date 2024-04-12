@@ -7,9 +7,12 @@ namespace Model
     {
         private ObservableCollection<object> _balls = new ObservableCollection<object>();
         private LogicAPI logicAPI = LogicAPI.CreateInstance();
-        public override void CreateBalls(int amount)
+        private int _ballAmount = 0;
+        public override int BallAmount { get => _ballAmount; set => _ballAmount = value; }
+
+        public override void CreateBalls()
         {
-            logicAPI.CreateBalls(amount);
+            logicAPI.CreateBalls(_ballAmount);
         }
 
         public override ObservableCollection<object> GetBalls()
