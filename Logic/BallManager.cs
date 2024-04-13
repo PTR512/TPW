@@ -4,42 +4,75 @@ internal class BallManager : LogicAPI
     {
     // TODO: make observers thread-safe, 'lock' instruction i guess
     private DataAPI Data = DataAPI.CreateInstance();
-    private ISet<IObserver<IBall>> observers;
+    private ISet<IObserver<List<IBall>>> observers;
+    private bool isRunning = false;
+    public BallManager()
+    {
+        Balls = [];
+        observers = new HashSet<IObserver<List<IBall>>>();
+        Console.Write("dziala");
+
+    }
     public override void CreateBalls(int amount)
     {
         for (int i = 0; i < amount; i++)
         {
             float radius = Data.GetBallRadius();
             (float x, float y) = GenerateRandomBallPlacement();
-            Balls.Add(IBall.CreateInstance(x, y, radius, 0,0));
+            Balls.Add(IBall.CreateInstance(x, y, radius, 0,0, false));
         }
         
         
     }
-
+    private void MoveBalls()
+    {
+        foreach(IBall ball in Balls)
+        {
+            ball.LetBallMove();
+        }
+    }
+    public void UpdateObservers()
+    {
+        foreach(var observer in observers)
+        {
+            if (Balls != null)
+            {
+                observer.OnNext(Balls);
+            }
+        }
+    }
+    
     public override void RunSimulation()
     {
-        foreach (IBall ball in Balls)
+        if (!isRunning)
         {
-            (float xSpeed, float ySpeed) = GenerateRandomBallSpeed();
-            ball.ChangeSpeed(xSpeed, ySpeed);
+            foreach (IBall ball in Balls)
+            {
+                (float xSpeed, float ySpeed) = GenerateRandomBallSpeed();
+                ball.ChangeSpeed(xSpeed, ySpeed);
+                ball.LetBallMove();
+            }
+            isRunning = true;
         }
+        
+
     }
 
     public override void StopSimulation()
     {
-        foreach (IBall ball in Balls)
+        if (isRunning)
         {
-            ball.ChangeSpeed(0, 0);
+            foreach (IBall ball in Balls)
+            {
+                ball.StopBall();
+            }
+            isRunning = false;
         }
+        
     }
     public override List<IBall> Balls { get; }
 
-    public BallManager()
-    {
-        Balls = [];
-
-    }
+    
     private (float x, float y) GenerateRandomBallPlacement()
     {
         Random random = new();
@@ -61,16 +94,16 @@ internal class BallManager : LogicAPI
         return 0 <= (pos - radius) && (pos + radius) <= boundary;
     }
 
-    public override IDisposable Subscribe(IObserver<IBall> observer)
+    public override IDisposable Subscribe(IObserver<List<IBall>> observer)
     {
         observers.Add(observer);
         return new Unsubscriber(observers, observer);
     }
 
-    private class Unsubscriber(ISet<IObserver<IBall>> observers, IObserver<IBall> observer) : IDisposable
+    private class Unsubscriber(ISet<IObserver<List<IBall>>> observers, IObserver<List<IBall>> observer) : IDisposable
     {
-        private readonly ISet<IObserver<IBall>> observers = observers;
-        private readonly  IObserver<IBall> observer = observer;
+        private readonly ISet<IObserver<List<IBall>>> observers = observers;
+        private readonly  IObserver<List<IBall>> observer = observer;
 
         public void Dispose()
         {
