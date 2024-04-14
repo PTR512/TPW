@@ -8,10 +8,11 @@ namespace LogicTest
         [TestMethod]
         public void TestMethod1()
         {
-            Console.Write("Test");
+            Console.WriteLine("Test");
             LogicAPI logicAPI = LogicAPI.CreateInstance();
-            logicAPI.CreateBalls(1);
-            logicAPI.StopSimulation();
+            logicAPI.CreateBalls(2);
+
+            logicAPI.RunSimulation();
         }
     }
 }

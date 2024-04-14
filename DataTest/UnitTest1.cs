@@ -1,3 +1,4 @@
+using Data;
 namespace DataTest
 {
     [TestClass]
@@ -6,6 +7,8 @@ namespace DataTest
         [TestMethod]
         public void TestMethod1()
         {
+            IBall.CreateInstance(0, 0, 1, 1, 1, true);
+
         }
     }
 }

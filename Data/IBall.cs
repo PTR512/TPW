@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public abstract class IBall
+    public abstract class IBall : INotifyPropertyChanged
     {
+        public abstract event PropertyChangedEventHandler? PropertyChanged;
 
         public abstract void ChangeSpeed(float xSpeed, float ySpeed);
         public abstract void StopBall();

@@ -1,4 +1,5 @@
 ﻿using Data;
+using System.Collections.ObjectModel;
 namespace Logic;
 internal class BallManager : LogicAPI
     {
@@ -8,9 +9,10 @@ internal class BallManager : LogicAPI
     private bool isRunning = false;
     public BallManager()
     {
+        System.Diagnostics.Debug.WriteLine("costam");
         Balls = [];
+        //ObservableCollection<IBall> Balls = new ObservableCollection<IBall>();
         observers = new HashSet<IObserver<List<IBall>>>();
-        Console.Write("dziala");
 
     }
     public override void CreateBalls(int amount)
@@ -19,18 +21,18 @@ internal class BallManager : LogicAPI
         {
             float radius = Data.GetBallRadius();
             (float x, float y) = GenerateRandomBallPlacement();
-            Balls.Add(IBall.CreateInstance(x, y, radius, 0,0, false));
+            Balls.Add(IBall.CreateInstance(x, y, radius, 0.1f,0.1f, true));
         }
         
         
     }
-    private void MoveBalls()
-    {
-        foreach(IBall ball in Balls)
-        {
-            ball.LetBallMove();
-        }
-    }
+    //private void MoveBalls()
+    //{
+    //    foreach(IBall ball in Balls)
+    //    {
+    //        ball.LetBallMove();
+    //    }
+    //}
     public void UpdateObservers()
     {
         foreach(var observer in observers)
@@ -51,6 +53,7 @@ internal class BallManager : LogicAPI
                 (float xSpeed, float ySpeed) = GenerateRandomBallSpeed();
                 ball.ChangeSpeed(xSpeed, ySpeed);
                 ball.LetBallMove();
+                
             }
             isRunning = true;
         }

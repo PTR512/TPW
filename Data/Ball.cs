@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Data
 {
@@ -11,6 +12,9 @@ namespace Data
         private float xSpeed;
         private float ySpeed;
         private bool isRunning;
+
+        public override event PropertyChangedEventHandler? PropertyChanged;
+
         public Ball(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning)
         {
             this.x = x;
@@ -19,19 +23,31 @@ namespace Data
             this.xSpeed = xSpeed;
             this.ySpeed = ySpeed;
             this.isRunning = isRunning;
+            System.Diagnostics.Debug.WriteLine("task run");
             Task.Run(Move);
         }
-        
+        public void OnPropertyChanged([CallerMemberName] string? propertyname = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
+        }
         public float X
         {
             get { return x; }
-            
+            private set
+            {
+                x = value;
+                OnPropertyChanged();
+            }
         }
 
         public float Y
         {
             get { return y; }
-            
+            private set 
+            {
+                x = value;
+                OnPropertyChanged();
+            }
         }
 
         public float Radius
@@ -61,14 +77,16 @@ namespace Data
         }
 
         
-        private void Move()
-        {  
+        private async void Move()
+        {
+            
             while (isRunning)
             {
+                System.Diagnostics.Debug.WriteLine("Ball is running " + X + " xspeed: "+XSpeed + " " + Y + " y speed: " + YSpeed);
                 x += xSpeed;
                 y += ySpeed;
-                System.Diagnostics.Debug.WriteLine(x + " " + y);
-                Thread.Sleep(1000);
+                
+                await Task.Delay(1000);
             }
             
         }
