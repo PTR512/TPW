@@ -1,6 +1,4 @@
 ﻿
-
-using Data;
 using System.Collections.ObjectModel;
 
 namespace Model

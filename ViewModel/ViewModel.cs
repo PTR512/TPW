@@ -41,11 +41,14 @@ namespace ViewModel
         public ICommand IncreaseBallAmount { get; }
 
         public ICommand DecreaseBallAmount { get; }
+        
+        public ICommand Start {  get; }
+        public ICommand Stop { get; }
 
         public void DecreaseAmount()
         {
             if (BallAmount > 0) BallAmount -= 1;
-            System.Diagnostics.Debug.WriteLine(BallAmount);
+            System.Diagnostics.Debug.WriteLine(modelAPI.BallAmount);
         }
 
         public void IncreaseAmount()
@@ -54,11 +57,20 @@ namespace ViewModel
             System.Diagnostics.Debug.WriteLine(BallAmount);
         }
 
+        public void RunSimulation()
+        {
+            modelAPI.CreateBalls();
+            modelAPI.Start();
+        }
+
         public ViewModel()
         {
             _balls = modelAPI.GetBalls();
             IncreaseBallAmount = new Command(IncreaseAmount);
             DecreaseBallAmount = new Command(DecreaseAmount);
+            Start = new Command(modelAPI.CreateBalls);
+            Stop = new Command(modelAPI.Stop);
+
         }
     }
 }
