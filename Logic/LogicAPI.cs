@@ -3,7 +3,7 @@ using Data;
 
 namespace Logic
 {
-    public abstract class LogicAPI : IObservable<IBall>
+    public abstract class LogicAPI : IObservable<List<IBall>>
     {
         public abstract void CreateBalls(int amount);
         public abstract void RunSimulation();
@@ -15,6 +15,6 @@ namespace Logic
             return new BallManager();
         }
 
-        public abstract IDisposable Subscribe(IObserver<IBall> observer);
+        public abstract IDisposable Subscribe(IObserver<List<IBall>> observer);
     }
 }
