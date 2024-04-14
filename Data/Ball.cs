@@ -36,6 +36,7 @@ namespace Data
             private set
             {
                 x = value;
+                OnPropertyChanged();
             }
         }
 
@@ -44,7 +45,8 @@ namespace Data
             get { return y; }
             private set 
             {
-                x = value;
+                y = value;
+                OnPropertyChanged();
             }
         }
 
@@ -81,11 +83,10 @@ namespace Data
             while (isRunning)
             {
                 System.Diagnostics.Debug.WriteLine("Ball is running " + X + " xspeed: "+XSpeed + " " + Y + " y speed: " + YSpeed);
-                x += xSpeed;
-                y += ySpeed;
-                OnPropertyChanged(nameof(x));
-                OnPropertyChanged(nameof(y));
-                await Task.Delay(100);
+                X += xSpeed;
+                Y += ySpeed;
+                OnPropertyChanged();
+                await Task.Delay(5);
             }
             
         }
@@ -100,7 +101,7 @@ namespace Data
 
         public override (float, float) getPosition()
         {
-            return (x, y);
+            return (X, Y);
         }
 
         public override (float, float) getSpeed()
