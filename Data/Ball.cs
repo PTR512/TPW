@@ -14,6 +14,7 @@ namespace Data
         private bool isRunning;
 
         public override event PropertyChangedEventHandler? PropertyChanged;
+        public override event EventHandler? CollisionEvent;
 
         public Ball(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning)
         {
@@ -25,6 +26,10 @@ namespace Data
             this.isRunning = isRunning;
             System.Diagnostics.Debug.WriteLine("task run");
             
+        }
+        public void OnCollisionEvent()
+        {
+            CollisionEvent?.Invoke(this, new EventArgs());
         }
         public void OnPropertyChanged([CallerMemberName] string? propertyname = null)
         {
@@ -84,11 +89,13 @@ namespace Data
             {
                 X += xSpeed;
                 Y += ySpeed;
-                OnPropertyChanged();
+
+                OnCollisionEvent();
                 await Task.Delay(50);
             }
             
         }
+        
         public override void StopBall()
         {
 

@@ -10,7 +10,7 @@ namespace Data
     public abstract class IBall : INotifyPropertyChanged
     {
         public abstract event PropertyChangedEventHandler? PropertyChanged;
-
+        public abstract event EventHandler? CollisionEvent;
         public abstract void ChangeSpeed(float xSpeed, float ySpeed);
         public abstract void StopBall();
         public abstract void LetBallMove();

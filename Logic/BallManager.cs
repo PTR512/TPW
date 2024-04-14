@@ -21,7 +21,7 @@ internal class BallManager : LogicAPI
             (float x, float y) = GenerateRandomBallPlacement();
             IBall ball = IBall.CreateInstance(x, y, radius, 0,0,false);
             Balls.Add(ball);
-            ball.PropertyChanged += CheckCollisions;
+            ball.CollisionEvent += CheckCollisions;
         }
         
         
@@ -46,22 +46,19 @@ internal class BallManager : LogicAPI
 
     }
 
-    private void CheckCollisions(object? sender, PropertyChangedEventArgs e)
+    private void CheckCollisions(object? sender, EventArgs e)
     {
 
-        System.Diagnostics.Debug.WriteLine("checking...");
         IBall ball = (IBall) sender;
         (float x, float y) = ball.getPosition();
         (float xSpeed, float ySpeed) = ball.getSpeed();
         if (!WithinBoundariesOnAxis(x, Data.GetBallRadius(), Data.GetTableWidth()))
         {
             xSpeed = -xSpeed;
-            System.Diagnostics.Debug.WriteLine("collision!");
         }
         if (!WithinBoundariesOnAxis(y, Data.GetBallRadius(), Data.GetTableHeight()))
         {
             ySpeed = -ySpeed;
-            System.Diagnostics.Debug.WriteLine("collision!");
         }
         ball.ChangeSpeed(xSpeed, ySpeed);
     }
