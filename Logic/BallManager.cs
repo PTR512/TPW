@@ -1,5 +1,6 @@
 ﻿using Data;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 namespace Logic;
 internal class BallManager : LogicAPI
     {
@@ -21,7 +22,9 @@ internal class BallManager : LogicAPI
         {
             float radius = Data.GetBallRadius();
             (float x, float y) = GenerateRandomBallPlacement();
-            Balls.Add(IBall.CreateInstance(x, y, radius, 0.1f,0.1f, true));
+            IBall ball = IBall.CreateInstance(x, y, radius, 10f, 10f, true);
+            Balls.Add(ball);
+            ball.PropertyChanged += CheckCollisions;
         }
         
         
@@ -61,6 +64,24 @@ internal class BallManager : LogicAPI
 
     }
 
+    private void CheckCollisions(object? sender, PropertyChangedEventArgs e)
+    {
+        
+        IBall ball = (IBall) sender;
+        (float x, float y) = ball.getPosition();
+        (float xSpeed, float ySpeed) = ball.getSpeed();
+        if (!WithinBoundariesOnAxis(x, Data.GetBallRadius(), Data.GetTableWidth()))
+        {
+            xSpeed = -xSpeed;
+        }
+        if (!WithinBoundariesOnAxis(y, Data.GetBallRadius(), Data.GetTableHeight()))
+        {
+            ySpeed = -ySpeed;
+        }
+        ball.ChangeSpeed(xSpeed, ySpeed);
+        
+    }
+
     public override void StopSimulation()
     {
         if (isRunning)
@@ -75,7 +96,6 @@ internal class BallManager : LogicAPI
     }
     public override List<IBall> Balls { get; }
 
-    
     private (float x, float y) GenerateRandomBallPlacement()
     {
         Random random = new();

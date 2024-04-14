@@ -36,7 +36,6 @@ namespace Data
             private set
             {
                 x = value;
-                OnPropertyChanged();
             }
         }
 
@@ -46,7 +45,6 @@ namespace Data
             private set 
             {
                 x = value;
-                OnPropertyChanged();
             }
         }
 
@@ -85,7 +83,7 @@ namespace Data
                 System.Diagnostics.Debug.WriteLine("Ball is running " + X + " xspeed: "+XSpeed + " " + Y + " y speed: " + YSpeed);
                 x += xSpeed;
                 y += ySpeed;
-                
+                OnPropertyChanged();
                 await Task.Delay(1000);
             }
             
@@ -98,6 +96,15 @@ namespace Data
         {
             isRunning = true;
         }
-        
+
+        public override (float, float) getPosition()
+        {
+            return (x, y);
+        }
+
+        public override (float, float) getSpeed()
+        {
+            return (xSpeed, ySpeed);
+        }
     }
 }
