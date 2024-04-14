@@ -22,7 +22,7 @@ internal class BallManager : LogicAPI
         {
             float radius = Data.GetBallRadius();
             (float x, float y) = GenerateRandomBallPlacement();
-            IBall ball = IBall.CreateInstance(x, y, radius, 10f, 10f, true);
+            IBall ball = IBall.CreateInstance(x, y, radius, 0,0,false);
             Balls.Add(ball);
             ball.PropertyChanged += CheckCollisions;
         }
@@ -54,7 +54,7 @@ internal class BallManager : LogicAPI
             foreach (IBall ball in Balls)
             {
                 (float xSpeed, float ySpeed) = GenerateRandomBallSpeed();
-                ball.ChangeSpeed(xSpeed, ySpeed);
+                ball.ChangeSpeed(5f, 5f);
                 ball.LetBallMove();
                 
             }
@@ -79,7 +79,6 @@ internal class BallManager : LogicAPI
             ySpeed = -ySpeed;
         }
         ball.ChangeSpeed(xSpeed, ySpeed);
-        
     }
 
     public override void StopSimulation()

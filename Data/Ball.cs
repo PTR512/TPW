@@ -24,7 +24,7 @@ namespace Data
             this.ySpeed = ySpeed;
             this.isRunning = isRunning;
             System.Diagnostics.Debug.WriteLine("task run");
-            Task.Run(Move);
+            
         }
         public void OnPropertyChanged([CallerMemberName] string? propertyname = null)
         {
@@ -86,17 +86,23 @@ namespace Data
                 X += xSpeed;
                 Y += ySpeed;
                 OnPropertyChanged();
-                await Task.Delay(5);
+                await Task.Delay(100);
             }
             
         }
         public override void StopBall()
         {
+
             isRunning = false;
         }
         public override void LetBallMove()
         {
-            isRunning = true;
+            if (!isRunning)
+            {
+                isRunning = true;
+                Task.Run(Move);
+            }
+            
         }
 
         public override (float, float) getPosition()
