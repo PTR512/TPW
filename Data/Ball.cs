@@ -82,11 +82,10 @@ namespace Data
             
             while (isRunning)
             {
-                System.Diagnostics.Debug.WriteLine("Ball is running " + X + " xspeed: "+XSpeed + " " + Y + " y speed: " + YSpeed);
                 X += xSpeed;
                 Y += ySpeed;
                 OnPropertyChanged();
-                await Task.Delay(100);
+                await Task.Delay(50);
             }
             
         }

@@ -6,14 +6,11 @@ internal class BallManager : LogicAPI
     {
     // TODO: make observers thread-safe, 'lock' instruction i guess
     private DataAPI Data = DataAPI.CreateInstance();
-    private ISet<IObserver<List<IBall>>> observers;
     private bool isRunning = false;
     public BallManager()
     {
         System.Diagnostics.Debug.WriteLine("costam");
         Balls = [];
-        //ObservableCollection<IBall> Balls = new ObservableCollection<IBall>();
-        observers = new HashSet<IObserver<List<IBall>>>();
 
     }
     public override void CreateBalls(int amount)
@@ -29,23 +26,8 @@ internal class BallManager : LogicAPI
         
         
     }
-    //private void MoveBalls()
-    //{
-    //    foreach(IBall ball in Balls)
-    //    {
-    //        ball.LetBallMove();
-    //    }
-    //}
-    public void UpdateObservers()
-    {
-        foreach(var observer in observers)
-        {
-            if (Balls != null)
-            {
-                observer.OnNext(Balls);
-            }
-        }
-    }
+    
+    
     
     public override void RunSimulation()
     {
@@ -54,7 +36,7 @@ internal class BallManager : LogicAPI
             foreach (IBall ball in Balls)
             {
                 (float xSpeed, float ySpeed) = GenerateRandomBallSpeed();
-                ball.ChangeSpeed(5f, 5f);
+                ball.ChangeSpeed(xSpeed, ySpeed);
                 ball.LetBallMove();
                 
             }
@@ -66,17 +48,20 @@ internal class BallManager : LogicAPI
 
     private void CheckCollisions(object? sender, PropertyChangedEventArgs e)
     {
-        
+
+        System.Diagnostics.Debug.WriteLine("checking...");
         IBall ball = (IBall) sender;
         (float x, float y) = ball.getPosition();
         (float xSpeed, float ySpeed) = ball.getSpeed();
         if (!WithinBoundariesOnAxis(x, Data.GetBallRadius(), Data.GetTableWidth()))
         {
             xSpeed = -xSpeed;
+            System.Diagnostics.Debug.WriteLine("collision!");
         }
         if (!WithinBoundariesOnAxis(y, Data.GetBallRadius(), Data.GetTableHeight()))
         {
             ySpeed = -ySpeed;
+            System.Diagnostics.Debug.WriteLine("collision!");
         }
         ball.ChangeSpeed(xSpeed, ySpeed);
     }
@@ -116,21 +101,6 @@ internal class BallManager : LogicAPI
         return 0 <= (pos - radius) && (pos + radius) <= boundary;
     }
 
-    public override IDisposable Subscribe(IObserver<List<IBall>> observer)
-    {
-        observers.Add(observer);
-        return new Unsubscriber(observers, observer);
-    }
-
-    private class Unsubscriber(ISet<IObserver<List<IBall>>> observers, IObserver<List<IBall>> observer) : IDisposable
-    {
-        private readonly ISet<IObserver<List<IBall>>> observers = observers;
-        private readonly  IObserver<List<IBall>> observer = observer;
-
-        public void Dispose()
-        {
-            observers?.Remove(observer);
-        }  
-    }
+    
 }
 
