@@ -55,20 +55,22 @@ namespace ViewModel
         {
             if (BallAmount < 15) BallAmount += 1;
             System.Diagnostics.Debug.WriteLine(BallAmount);
+            System.Diagnostics.Debug.WriteLine("BALLS: "+Balls.Count);
         }
 
         public void RunSimulation()
         {
             modelAPI.CreateBalls();
+            Balls = modelAPI.GetBalls();
             modelAPI.Start();
         }
 
         public ViewModel()
         {
-            _balls = modelAPI.GetBalls();
+            Balls = modelAPI.GetBalls();
             IncreaseBallAmount = new Command(IncreaseAmount);
             DecreaseBallAmount = new Command(DecreaseAmount);
-            Start = new Command(modelAPI.CreateBalls);
+            Start = new Command(RunSimulation);
             Stop = new Command(modelAPI.Stop);
 
         }

@@ -83,8 +83,9 @@ namespace Data
                 System.Diagnostics.Debug.WriteLine("Ball is running " + X + " xspeed: "+XSpeed + " " + Y + " y speed: " + YSpeed);
                 x += xSpeed;
                 y += ySpeed;
-                OnPropertyChanged();
-                await Task.Delay(1000);
+                OnPropertyChanged(nameof(x));
+                OnPropertyChanged(nameof(y));
+                await Task.Delay(100);
             }
             
         }
