@@ -1,27 +1,54 @@
 ﻿using Model;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace ViewModel
 {
-    internal class ViewModel : ViewModelAPI
+    public class ViewModel : INotifyPropertyChanged
     {
         ModelAPI modelAPI = ModelAPI.CreateInstance();
         private ObservableCollection<object> _balls;
-        public override ObservableCollection<object> Balls { get => _balls; set => _balls = value; }
-        public override int BallAmount { get => modelAPI.BallAmount; set => modelAPI.BallAmount = value; }
 
-        public override ICommand IncreaseBallAmount { get; }
+        //Tak było w tutorialu
+        public event PropertyChangedEventHandler? PropertyChanged;
+    
+        public void OnPropertyChanged([CallerMemberName] string propertyname = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
+        }
 
-        public override ICommand DecreaseBallAmount { get; }
+        public ObservableCollection<object> Balls
+        { 
+            get => _balls;
+            set
+            {
+                _balls = value;
+                OnPropertyChanged();
+            }
+        }
+        public int BallAmount 
+        { 
+            get => modelAPI.BallAmount;
+            set
+            {
+                modelAPI.BallAmount = value; 
+                OnPropertyChanged();
+            }
+        }
 
-        public override void DecreaseAmount()
+        public ICommand IncreaseBallAmount { get; }
+
+        public ICommand DecreaseBallAmount { get; }
+
+        public void DecreaseAmount()
         {
             if (BallAmount > 0) BallAmount -= 1;
             System.Diagnostics.Debug.WriteLine(BallAmount);
         }
 
-        public override void IncreaseAmount()
+        public void IncreaseAmount()
         {
             if (BallAmount < 15) BallAmount += 1;
             System.Diagnostics.Debug.WriteLine(BallAmount);
