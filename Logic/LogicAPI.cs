@@ -14,6 +14,9 @@ namespace Logic
         {
             return new BallManager();
         }
-
+        public static LogicAPI CreateInstance(List<IBall> Balls)
+        {
+            return new BallManager(Balls);
+        }
     }
 }

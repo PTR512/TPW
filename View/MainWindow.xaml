@@ -24,7 +24,7 @@
         <ItemsControl ItemsSource="{Binding Balls}" Margin="187,0,0,0" Grid.RowSpan="2">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas Width="500" Height="700"  Background="LightGreen"/>
+                    <Canvas Width="500" Height="700" Background="LightGreen"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>

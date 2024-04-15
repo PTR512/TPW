@@ -6,13 +6,14 @@ namespace LogicTest
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void BallManagerTest()
         {
-            Console.WriteLine("Test");
-            LogicAPI logicAPI = LogicAPI.CreateInstance();
-            logicAPI.CreateBalls(2);
-
+            LogicAPI logicAPI = LogicAPI.CreateInstance(BallFactory.CreateListOfBalls(2));
+            
+            Assert.IsTrue(logicAPI.Balls.Count == 2);
             logicAPI.RunSimulation();
+            logicAPI.StopSimulation();
+
         }
     }
 }

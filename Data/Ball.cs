@@ -91,7 +91,7 @@ namespace Data
                 Y += ySpeed;
 
                 OnCollisionEvent();
-                await Task.Delay(50);
+                await Task.Delay(20);
             }
             
         }

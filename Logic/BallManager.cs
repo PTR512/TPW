@@ -4,14 +4,16 @@ using System.ComponentModel;
 namespace Logic;
 internal class BallManager : LogicAPI
     {
-    // TODO: make observers thread-safe, 'lock' instruction i guess
     private DataAPI Data = DataAPI.CreateInstance();
     private bool isRunning = false;
     public BallManager()
     {
-        System.Diagnostics.Debug.WriteLine("costam");
         Balls = [];
 
+    }
+    public BallManager(List<IBall> Balls)
+    {
+        this.Balls = Balls;
     }
     public override void CreateBalls(int amount)
     {
