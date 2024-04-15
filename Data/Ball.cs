@@ -13,8 +13,7 @@ namespace Data
         private float ySpeed;
         private bool isRunning;
 
-        public override event PropertyChangedEventHandler? PropertyChanged;
-        public override event EventHandler? CollisionEvent;
+        public override event EventHandler? ChangedPosition;
 
         public Ball(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning)
         {
@@ -25,13 +24,9 @@ namespace Data
             this.ySpeed = ySpeed;
             this.isRunning = isRunning;
         }
-        public void OnCollisionEvent()
+        public void OnChangedPosition()
         {
-            CollisionEvent?.Invoke(this, new EventArgs());
-        }
-        public void OnPropertyChanged([CallerMemberName] string? propertyname = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
+            ChangedPosition?.Invoke(this, new EventArgs());
         }
         public float X
         {
@@ -39,7 +34,7 @@ namespace Data
             private set
             {
                 x = value;
-                OnPropertyChanged();
+                
             }
         }
 
@@ -49,7 +44,7 @@ namespace Data
             private set 
             {
                 y = value;
-                OnPropertyChanged();
+                
             }
         }
 
@@ -87,8 +82,7 @@ namespace Data
             {
                 X += xSpeed;
                 Y += ySpeed;
-
-                OnCollisionEvent();
+                OnChangedPosition();
                 await Task.Delay(20);
             }
             

@@ -6,26 +6,26 @@ internal class BallManager : LogicAPI
     {
     private DataAPI Data;
     private bool isRunning = false;
-    
-    public BallManager(DataAPI Data)
+    private List<IBall> Balls;
+
+    public BallManager(DataAPI Data, List<IBall> Balls)
     {
-        Balls = [];
+        this.Balls = Balls;
         this.Data = Data;
     }
-
+    
     public override void CreateBalls(int amount)
     {
         if (Balls.Count == 0)
         {
             for (int i = 0; i < amount; i++)
             {
-
                 float radius = Data.GetBallRadius();
                 (float x, float y) = GenerateRandomBallPlacement();
                 (float xSpeed, float ySpeed) = GenerateRandomBallSpeed();
                 IBall ball = IBall.CreateInstance(x, y, radius, xSpeed, ySpeed, false);
                 Balls.Add(ball);
-                ball.CollisionEvent += CheckCollisions;
+                ball.ChangedPosition += CheckCollisions;
             }
         }
         
@@ -78,8 +78,15 @@ internal class BallManager : LogicAPI
         }
         
     }
-    public override List<IBall> Balls { get; }
-
+    public override List<IBallPosition> GetBalls()
+    {
+        List<IBallPosition> ballPositions = new List<IBallPosition>();
+        foreach (IBall Ball in Balls)
+        {
+            ballPositions.Add(IBallPosition.CreateInstance(Ball));
+        }
+        return ballPositions;
+    }
     private (float x, float y) GenerateRandomBallPlacement()
     {
         Random random = new();

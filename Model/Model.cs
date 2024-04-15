@@ -19,8 +19,9 @@ namespace Model
 
         public override ObservableCollection<object> GetBalls()
         {
-            foreach (object ball in logicAPI.Balls)
+            foreach (object ball in logicAPI.GetBalls())
             {
+                
                 _balls.Add(ball);
             }
             return _balls;
