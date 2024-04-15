@@ -24,8 +24,6 @@ namespace Data
             this.xSpeed = xSpeed;
             this.ySpeed = ySpeed;
             this.isRunning = isRunning;
-            System.Diagnostics.Debug.WriteLine("task run");
-            
         }
         public void OnCollisionEvent()
         {

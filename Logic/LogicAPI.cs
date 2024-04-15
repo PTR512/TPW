@@ -10,13 +10,11 @@ namespace Logic
         public abstract void StopSimulation();
         public abstract List<IBall> Balls { get; }
 
-        public static LogicAPI CreateInstance()
+        
+        public static LogicAPI CreateInstance(DataAPI? data = default)
         {
-            return new BallManager();
+            return new BallManager(data ?? DataAPI.CreateInstance());
         }
-        public static LogicAPI CreateInstance(List<IBall> Balls)
-        {
-            return new BallManager(Balls);
-        }
+
     }
 }

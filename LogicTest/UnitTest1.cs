@@ -8,7 +8,7 @@ namespace LogicTest
         [TestMethod]
         public void BallManagerTest()
         {
-            LogicAPI logicAPI = LogicAPI.CreateInstance(BallFactory.CreateListOfBalls(2));
+            LogicAPI logicAPI = LogicAPI.CreateInstance();
             
             Assert.IsTrue(logicAPI.Balls.Count == 2);
             logicAPI.RunSimulation();

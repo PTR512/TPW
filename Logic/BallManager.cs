@@ -4,27 +4,31 @@ using System.ComponentModel;
 namespace Logic;
 internal class BallManager : LogicAPI
     {
-    private DataAPI Data = DataAPI.CreateInstance();
+    private DataAPI Data;
     private bool isRunning = false;
-    public BallManager()
+    
+    public BallManager(DataAPI Data)
     {
         Balls = [];
+        this.Data = Data;
+    }
 
-    }
-    public BallManager(List<IBall> Balls)
-    {
-        this.Balls = Balls;
-    }
     public override void CreateBalls(int amount)
     {
-        for (int i = 0; i < amount; i++)
+        if (Balls.Count == 0)
         {
-            float radius = Data.GetBallRadius();
-            (float x, float y) = GenerateRandomBallPlacement();
-            IBall ball = IBall.CreateInstance(x, y, radius, 0,0,false);
-            Balls.Add(ball);
-            ball.CollisionEvent += CheckCollisions;
+            for (int i = 0; i < amount; i++)
+            {
+
+                float radius = Data.GetBallRadius();
+                (float x, float y) = GenerateRandomBallPlacement();
+                (float xSpeed, float ySpeed) = GenerateRandomBallSpeed();
+                IBall ball = IBall.CreateInstance(x, y, radius, xSpeed, ySpeed, false);
+                Balls.Add(ball);
+                ball.CollisionEvent += CheckCollisions;
+            }
         }
+        
         
         
     }
@@ -37,10 +41,7 @@ internal class BallManager : LogicAPI
         {
             foreach (IBall ball in Balls)
             {
-                (float xSpeed, float ySpeed) = GenerateRandomBallSpeed();
-                ball.ChangeSpeed(xSpeed, ySpeed);
                 ball.LetBallMove();
-                
             }
             isRunning = true;
         }
