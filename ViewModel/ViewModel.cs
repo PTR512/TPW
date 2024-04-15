@@ -41,6 +41,8 @@ namespace ViewModel
         public ICommand IncreaseBallAmount { get; }
 
         public ICommand DecreaseBallAmount { get; }
+
+        public ICommand CreateBalls { get; }
         
         public ICommand Start {  get; }
         public ICommand Stop { get; }
@@ -58,19 +60,19 @@ namespace ViewModel
             System.Diagnostics.Debug.WriteLine("BALLS: "+Balls.Count);
         }
 
-        public void RunSimulation()
+        public void MakeBalls()
         {
             modelAPI.CreateBalls();
             Balls = modelAPI.GetBalls();
-            modelAPI.Start();
         }
 
         public ViewModel()
         {
             Balls = modelAPI.GetBalls();
+            CreateBalls = new Command(MakeBalls);
             IncreaseBallAmount = new Command(IncreaseAmount);
             DecreaseBallAmount = new Command(DecreaseAmount);
-            Start = new Command(RunSimulation);
+            Start = new Command(modelAPI.Start);
             Stop = new Command(modelAPI.Stop);
 
         }

@@ -11,17 +11,16 @@
         <ViewModel:ViewModel/>
     </Window.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="151*"/>
-            <RowDefinition Height="241*"/>
-        </Grid.RowDefinitions>
         <TextBox HorizontalAlignment="Left" Margin="81,187,0,0" TextWrapping="Wrap" Text="{Binding BallAmount }" VerticalAlignment="Top" Width="41" Height="24" IsReadOnly="True" FontSize="16" TextAlignment="Center" />
         <Button Content="+" HorizontalAlignment="Left" Margin="127,186,0,0" Command="{Binding IncreaseBallAmount}" VerticalAlignment="Top" FontSize="16" Width="25" Height="25"/>
         <Button Content="-" HorizontalAlignment="Left" Margin="51,186,0,0" Command="{Binding DecreaseBallAmount}" VerticalAlignment="Top" FontSize="16" Width="25" Height="25"/>
         <Label Content="Ilość kul" HorizontalAlignment="Left" Margin="68,156,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Button Content="START" HorizontalAlignment="Left" Command="{Binding Start}"  Margin="69,234,0,0" VerticalAlignment="Top"  FontSize="16" Height="34" Width="65"/>
-        <Button Content="STOP" HorizontalAlignment="Left" Command="{Binding Stop}" Margin="70,273,0,0" VerticalAlignment="Top"  FontSize="16" Height="34" Width="65" Grid.RowSpan="2"/>
-        <ItemsControl ItemsSource="{Binding Balls}" Margin="187,0,0,0" Grid.RowSpan="2">
+        <Button Content="START" HorizontalAlignment="Left" Command="{Binding Start}"  Margin="69,283,0,0" VerticalAlignment="Top"  FontSize="16" Height="34" Width="65"/>
+        <Button Content="STOP" HorizontalAlignment="Left" Command="{Binding Stop}" Margin="69,328,0,0" VerticalAlignment="Top"  FontSize="16" Height="34" Width="65"/>
+        <Button HorizontalAlignment="Left" Command="{Binding CreateBalls}" Margin="69,222,0,0" VerticalAlignment="Top"  FontSize="16" Height="50" Width="65">
+            <TextBlock TextAlignment="Center" TextWrapping="Wrap">Create Balls</TextBlock>
+        </Button>
+        <ItemsControl ItemsSource="{Binding Balls}" Margin="187,0,0,0">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Width="500" Height="700" Background="LightGreen"/>
