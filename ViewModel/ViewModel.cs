@@ -9,17 +9,17 @@ namespace ViewModel
     public class ViewModel : INotifyPropertyChanged
     {
         ModelAPI modelAPI = ModelAPI.CreateInstance();
-        private ObservableCollection<object> _balls;
+        private ObservableCollection<object>? _balls;
 
         //Tak było w tutorialu
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName] string propertyname = null)
+        public void OnPropertyChanged([CallerMemberName] string? propertyname = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
         }
 
-        public ObservableCollection<object> Balls
+        public ObservableCollection<object>? Balls
         {
             get => _balls;
             set
@@ -71,7 +71,6 @@ namespace ViewModel
             DecreaseBallAmount = new Command(DecreaseAmount);
             Start = new Command(modelAPI.Start);
             Stop = new Command(modelAPI.Stop);
-
         }
     }
 }
