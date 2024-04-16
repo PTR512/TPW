@@ -13,7 +13,7 @@ internal class BallManager : LogicAPI
         this.Balls = Balls;
         this.Data = Data;
     }
-    
+    // create balls with random position and speed
     public override void CreateBalls(int amount)
     {
         if (Balls.Count == 0)
@@ -48,7 +48,7 @@ internal class BallManager : LogicAPI
         
 
     }
-
+    // check if the ball collides with a side of the table
     private void CheckCollisions(object? sender, EventArgs e)
     {
 
@@ -78,6 +78,7 @@ internal class BallManager : LogicAPI
         }
         
     }
+    // return a list of wrapped balls stripped from the ability to change the state of the original balls
     public override List<IBallPosition> GetBalls()
     {
         List<IBallPosition> ballPositions = new List<IBallPosition>();
@@ -87,6 +88,7 @@ internal class BallManager : LogicAPI
         }
         return ballPositions;
     }
+    // generate random ball position within the boundaries of the table (radius <= x < TableWidth - radius) and (radius <= y < TableHeight - radius)
     private (float x, float y) GenerateRandomBallPlacement()
     {
         Random random = new();
@@ -95,6 +97,7 @@ internal class BallManager : LogicAPI
         float y = (float) random.NextDouble() * (Data.GetTableHeight() - 2 * radius) + radius;
         return (x, y);
     }
+    // generate random ball speed (-maxSpeed <= (xSpeed, ySpeed) < maxSpeed)
     private (float xSpeed, float ySpeed) GenerateRandomBallSpeed()
     {
         Random random = new();

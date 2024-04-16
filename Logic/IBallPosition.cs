@@ -10,6 +10,7 @@ namespace Logic
 {
     public abstract class IBallPosition : INotifyPropertyChanged
     {
+        // wrapper for balls
         public abstract event PropertyChangedEventHandler? PropertyChanged;
         public static IBallPosition CreateInstance(IBall Ball)
         {

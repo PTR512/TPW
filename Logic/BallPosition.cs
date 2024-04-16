@@ -13,12 +13,10 @@ namespace Logic
     {
         private float x, y;
 
-        private IBall Ball;
         public override event PropertyChangedEventHandler? PropertyChanged;
 
         public BallPosition(IBall Ball)
         {
-            this.Ball = Ball;
             (float x, float y) = Ball.getPosition();
             X = x;
             Y = y;
@@ -27,6 +25,7 @@ namespace Logic
 
         private void OnChagedPosition(object? sender, EventArgs e)
         {
+
             IBall Ball = (IBall) sender;
             (float x, float y) = Ball.getPosition();
             X = x;
@@ -42,11 +41,6 @@ namespace Logic
                 OnPropertyChanged();
             }
         }
-        public void OnPropertyChanged([CallerMemberName] string? propertyname = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
-        }
-
         public float Y
         {
             get { return y; }
@@ -56,6 +50,9 @@ namespace Logic
                 OnPropertyChanged();
             }
         }
-
+        public void OnPropertyChanged([CallerMemberName] string? propertyname = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
+        }
     }
 }
