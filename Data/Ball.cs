@@ -83,7 +83,7 @@ namespace Data
                 X += xSpeed;
                 Y += ySpeed;
                 OnChangedPosition();
-                await Task.Delay(20);
+                await Task.Delay(5);
             }
             
         }

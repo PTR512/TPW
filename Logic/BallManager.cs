@@ -99,8 +99,8 @@ internal class BallManager : LogicAPI
     {
         Random random = new();
         float maxSpeed = Data.getMaxSpeed();
-        float xSpeed = (float)random.NextDouble() * maxSpeed;
-        float ySpeed = (float)random.NextDouble() * maxSpeed;
+        float xSpeed = ((float)random.NextDouble() * 2 * maxSpeed) - maxSpeed;
+        float ySpeed = ((float)random.NextDouble() * 2 * maxSpeed) - maxSpeed;
         return (xSpeed, ySpeed);
     }
     private static bool WithinBoundariesOnAxis(float pos, float radius, float boundary)
