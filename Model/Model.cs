@@ -13,7 +13,6 @@ namespace Model
         public override void CreateBalls()
         {
             logicAPI.CreateBalls(_ballAmount);
-            System.Diagnostics.Debug.WriteLine("BALLS: " + GetBalls().Count);
         }
 
         public override ObservableCollection<object> GetBalls()
