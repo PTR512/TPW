@@ -50,14 +50,11 @@ namespace ViewModel
         public void DecreaseAmount()
         {
             if (BallAmount > 0) BallAmount -= 1;
-            System.Diagnostics.Debug.WriteLine(modelAPI.BallAmount);
         }
 
         public void IncreaseAmount()
         {
             if (BallAmount < 15) BallAmount += 1;
-            System.Diagnostics.Debug.WriteLine(BallAmount);
-            System.Diagnostics.Debug.WriteLine("BALLS: " + Balls.Count);
         }
 
         public void MakeBalls()
