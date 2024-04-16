@@ -1,14 +1,13 @@
 using Data;
 using Logic;
 using Moq;
-using System.ComponentModel;
 
 namespace LogicTest
 {
     [TestClass]
     public class UnitTest1
     {
-        
+
         [TestMethod]
         public void BallManagerTest()
         {
@@ -24,7 +23,7 @@ namespace LogicTest
             DataAPISim.Setup(d => d.getMaxSpeed()).Returns(10);
 
             List<IBall> Balls = [BallSim.Object];
-            Assert.IsNotNull( Balls );
+            Assert.IsNotNull(Balls);
 
             LogicAPI logicAPI = LogicAPI.CreateInstance(DataAPISim.Object, Balls);
             Assert.IsNotNull(logicAPI);

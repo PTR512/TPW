@@ -1,9 +1,7 @@
 ﻿using Data;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 namespace Logic;
 internal class BallManager : LogicAPI
-    {
+{
     private DataAPI Data;
     private bool isRunning = false;
     private List<IBall> Balls;
@@ -28,13 +26,13 @@ internal class BallManager : LogicAPI
                 ball.ChangedPosition += CheckCollisions;
             }
         }
-        
-        
-        
+
+
+
     }
-    
-    
-    
+
+
+
     public override void RunSimulation()
     {
         if (!isRunning)
@@ -45,14 +43,14 @@ internal class BallManager : LogicAPI
             }
             isRunning = true;
         }
-        
+
 
     }
     // check if the ball collides with a side of the table
     private void CheckCollisions(object? sender, EventArgs e)
     {
 
-        IBall ball = (IBall) sender;
+        IBall ball = (IBall)sender;
         (float x, float y) = ball.getPosition();
         (float xSpeed, float ySpeed) = ball.getSpeed();
         if (!WithinBoundariesOnAxis(x, Data.GetBallRadius(), Data.GetTableWidth()))
@@ -76,7 +74,7 @@ internal class BallManager : LogicAPI
             }
             isRunning = false;
         }
-        
+
     }
     // return a list of wrapped balls stripped from the ability to change the state of the original balls
     public override List<IBallPosition> GetBalls()
@@ -93,8 +91,8 @@ internal class BallManager : LogicAPI
     {
         Random random = new();
         float radius = Data.GetBallRadius();
-        float x = (float) random.NextDouble() * (Data.GetTableWidth() - 2 * radius) + radius;
-        float y = (float) random.NextDouble() * (Data.GetTableHeight() - 2 * radius) + radius;
+        float x = (float)random.NextDouble() * (Data.GetTableWidth() - 2 * radius) + radius;
+        float y = (float)random.NextDouble() * (Data.GetTableHeight() - 2 * radius) + radius;
         return (x, y);
     }
     // generate random ball speed (-maxSpeed <= (xSpeed, ySpeed) < maxSpeed)
@@ -111,6 +109,6 @@ internal class BallManager : LogicAPI
         return 0 <= (pos - radius) && (pos + radius) <= boundary;
     }
 
-    
+
 }
 

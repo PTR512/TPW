@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Data
+﻿namespace Data
 {
     public abstract class IBall
     {
@@ -19,7 +12,7 @@ namespace Data
         {
             return new Ball(x, y, radius, xSpeed, ySpeed, isRunning);
         }
-        
-      
+
+
     }
 }
