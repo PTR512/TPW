@@ -1,11 +1,7 @@
-﻿
-
-using System.ComponentModel.DataAnnotations;
-
-namespace Data
+﻿namespace Data
 {
     internal class Data : DataAPI
-        
+
     {
         private readonly float width = 500;
         private readonly float height = 700;

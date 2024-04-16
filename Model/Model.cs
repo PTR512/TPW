@@ -1,5 +1,4 @@
-﻿using Data;
-using Logic;
+﻿using Logic;
 using System.Collections.ObjectModel;
 
 namespace Model
@@ -21,7 +20,7 @@ namespace Model
         {
             foreach (object ball in logicAPI.GetBalls())
             {
-                
+
                 _balls.Add(ball);
             }
             return _balls;

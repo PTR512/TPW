@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-
-namespace Data
+﻿namespace Data
 {
     internal class Ball : IBall
     {
@@ -34,24 +30,24 @@ namespace Data
             private set
             {
                 x = value;
-                
+
             }
         }
 
         public float Y
         {
             get { return y; }
-            private set 
+            private set
             {
                 y = value;
-                
+
             }
         }
 
         public float Radius
         {
             get { return radius; }
-            
+
         }
 
         public float XSpeed
@@ -74,10 +70,10 @@ namespace Data
             this.YSpeed = ySpeed;
         }
 
-        
+
         private async void Move()
         {
-            
+
             while (isRunning)
             {
                 X += xSpeed;
@@ -85,9 +81,9 @@ namespace Data
                 OnChangedPosition();
                 await Task.Delay(5);
             }
-            
+
         }
-        
+
         public override void StopBall()
         {
 
@@ -100,7 +96,7 @@ namespace Data
                 isRunning = true;
                 Task.Run(Move);
             }
-            
+
         }
 
         public override (float, float) getPosition()
