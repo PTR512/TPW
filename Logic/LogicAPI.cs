@@ -1,5 +1,5 @@
 ﻿
-using Data;
+using Data.Abstract;
 
 namespace Logic
 {

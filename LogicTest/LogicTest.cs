@@ -10,18 +10,18 @@ namespace LogicTest
         [TestMethod]
         public void BallManagerTest()
         {
-            Mock<Data.IBall> BallSim = new Mock<Data.IBall>();
+            Mock<Data.Abstract.IBall> BallSim = new Mock<Data.Abstract.IBall>();
             BallSim.Setup(b => b.StopBall());
             BallSim.Setup(b => b.LetBallMove());
             BallSim.Setup(b => b.getPosition()).Returns((1, 1));
             BallSim.Setup(b => b.getSpeed()).Returns((1, 1));
 
-            Mock<Data.DataAPI> DataAPISim = new Mock<Data.DataAPI>();
+            Mock<Data.Abstract.DataAPI> DataAPISim = new Mock<Data.Abstract.DataAPI>();
             DataAPISim.Setup(d => d.GetTableWidth()).Returns(500);
             DataAPISim.Setup(d => d.GetTableHeight()).Returns(700);
             DataAPISim.Setup(d => d.getMaxSpeed()).Returns(10);
 
-            List<Data.IBall> Balls = [BallSim.Object];
+            List<Data.Abstract.IBall> Balls = [BallSim.Object];
             Assert.IsNotNull(Balls);
 
             LogicAPI logicAPI = LogicAPI.CreateInstance(DataAPISim.Object, Balls);

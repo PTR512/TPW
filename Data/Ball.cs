@@ -1,6 +1,6 @@
 ﻿namespace Data
 {
-    internal class Ball : IBall
+    internal class Ball : Abstract.IBall
     {
         private float x;
         private float y;

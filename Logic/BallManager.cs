@@ -1,4 +1,4 @@
-﻿using Data;
+﻿using Data.Abstract;
 namespace Logic;
 internal class BallManager : LogicAPI
 {

@@ -1,6 +1,6 @@
 ﻿namespace Data
 {
-    internal class Data : DataAPI
+    internal class Data : Abstract.DataAPI
 
     {
         private readonly float width = 500;

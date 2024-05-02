@@ -1,4 +1,4 @@
-﻿namespace Data
+﻿namespace Data.Abstract
 {
     public abstract class DataAPI
     {
