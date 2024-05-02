@@ -15,6 +15,7 @@ namespace DataTest
             ball.ChangeSpeed(1, 2);
             Assert.IsTrue((1, 2) == ball.getSpeed());
         }
+        [TestMethod]
         public void TableTest()
         {
             DataAPI data = DataAPI.CreateInstance();
@@ -22,6 +23,7 @@ namespace DataTest
             Assert.IsTrue(data.GetTableHeight() == 500);
             Assert.IsTrue(data.getMaxSpeed() == 5);
             Assert.IsTrue(data.GetBallRadius() == 30);
+            
         }
     }
 }

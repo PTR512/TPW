@@ -50,9 +50,9 @@ internal class BallManager : LogicAPI
     private void CheckCollisions(object? sender, EventArgs e)
     {
 
-        IBall ball = (IBall)sender;
-        (float x, float y) = ball.getPosition();
-        (float xSpeed, float ySpeed) = ball.getSpeed();
+        IBall Ball = (IBall)sender;
+        (float x, float y) = Ball.getPosition();
+        (float xSpeed, float ySpeed) = Ball.getSpeed();
         if (!WithinBoundariesOnAxis(x, Data.GetBallRadius(), Data.GetTableWidth()))
         {
             xSpeed = -xSpeed;
@@ -61,9 +61,41 @@ internal class BallManager : LogicAPI
         {
             ySpeed = -ySpeed;
         }
-        ball.ChangeSpeed(xSpeed, ySpeed);
+        // checking collisions with balls on the table
+        foreach (IBall OtherBall in Balls)
+        {
+            if (OtherBall != Ball && IsColliding(Ball, OtherBall))
+            {
+                
+                //function for calculating new velocity
+                ElasticCollision(Ball, OtherBall);
+            }
+        }
+        Ball.ChangeSpeed(xSpeed, ySpeed);
     }
+    private void ElasticCollision(IBall ball1, IBall ball2)
+    {
+        (float xSpeed1, float ySpeed1) = ball1.getSpeed();
+        (float xSpeed2, float ySpeed2) = ball2.getSpeed();
 
+        throw new NotImplementedException();
+    }
+    private bool IsColliding(IBall ball1, IBall ball2)
+    {
+        float radius = Data.GetBallRadius();
+        if (EuclideanDistance(ball1, ball2) <= 2 * radius)
+        {
+            return true;
+        }
+        return false;
+    }
+    private float EuclideanDistance(IBall ball1, IBall ball2)
+    {
+        (float x1, float y1) = ball1.getPosition();
+        (float x2, float y2) = ball2.getPosition();
+        return (float)Math.Sqrt(x1 * x1 + y1 * y2);
+
+    }
     public override void StopSimulation()
     {
         if (isRunning)
