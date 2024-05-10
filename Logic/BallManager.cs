@@ -51,54 +51,57 @@ internal class BallManager : LogicAPI
     // check if the ball collides with a side of the table
     private void CheckCollisions(object? sender, EventArgs e)
     {
+        lock (Balls)
+        {
+            IBall Ball = (IBall)sender;
+            (float x, float y) = Ball.getPosition();
+            (float xSpeed, float ySpeed) = Ball.getSpeed();
 
-        IBall Ball = (IBall)sender;
-        (float x, float y) = Ball.getPosition();
-        (float xSpeed, float ySpeed) = Ball.getSpeed();
-
-        if (!WithinBoundariesOnAxis(x, Data.GetBallRadius(), Data.GetTableWidth()))
-        {
-            xSpeed = -xSpeed;
-        }
-        if (!WithinBoundariesOnAxis(y, Data.GetBallRadius(), Data.GetTableHeight()))
-        {
-            ySpeed = -ySpeed;
-        }
-        // checking collisions with balls on the table
-        foreach (IBall OtherBall in Balls)
-        {
-            if (OtherBall != Ball && IsColliding(Ball, OtherBall))
+            if (!WithinBoundariesOnAxis(x, Data.GetBallRadius(), Data.GetTableWidth()))
             {
- 
-                //function for calculating new velocity
-                ElasticCollision(Ball, OtherBall);
-                return;
+                xSpeed = -xSpeed;
             }
+            if (!WithinBoundariesOnAxis(y, Data.GetBallRadius(), Data.GetTableHeight()))
+            {
+                ySpeed = -ySpeed;
+            }
+            // checking collisions with balls on the table
+            foreach (IBall OtherBall in Balls)
+            {
+                if (OtherBall != Ball && IsColliding(Ball, OtherBall))
+                {
+
+                    //function for calculating new velocity
+                    ElasticCollision(Ball, OtherBall);
+                    return;
+                }
+            }
+            Ball.ChangeSpeed(xSpeed, ySpeed);
         }
-        Ball.ChangeSpeed(xSpeed, ySpeed);
     }
     private void ElasticCollision(IBall ball1, IBall ball2)
     {
-        //System.Diagnostics.Debug.WriteLine("Collision with another ball");
-        (float x1, float y1) = ball1.getPosition();
-        (float xSpeed1, float ySpeed1) = ball1.getSpeed();
-        (float x2, float y2) = ball2.getPosition();
-        (float xSpeed2, float ySpeed2) = ball2.getSpeed();
-        (float x, float y) newSpeedBall1, newSpeedBall2,
-                           v1_v2 = (xSpeed1 - xSpeed2, ySpeed1 - ySpeed2),
-                           v2_v1 = (xSpeed2 - xSpeed1, ySpeed2 - ySpeed1),
-                           x1_x2 = (x1 - x2, y1 - y2),
-                           x2_x1 = (x2 - x1, y2 - y1);
-        float dist = EuclideanDistance(ball1, ball2);
-        float sqDist = dist * dist;
-        float coef1, coef2;
-        coef1 = (v1_v2.x * x1_x2.x + v1_v2.y * x1_x2.y) / sqDist;
-        coef2 = (v2_v1.x * x2_x1.x + v2_v1.y * x2_x1.y) / sqDist;
-        newSpeedBall1 = (xSpeed1 - x1_x2.x * coef1, ySpeed1 - x1_x2.y * coef1);
-        newSpeedBall2 = (xSpeed2 - x2_x1.x * coef2, ySpeed2 - x2_x1.y * coef2);
-        ball1.ChangeSpeed(newSpeedBall1.x, newSpeedBall1.y);
-        ball2.ChangeSpeed(newSpeedBall2.x, newSpeedBall2.y);
-
+        
+            //System.Diagnostics.Debug.WriteLine("Collision with another ball");
+            (float x1, float y1) = ball1.getPosition();
+            (float xSpeed1, float ySpeed1) = ball1.getSpeed();
+            (float x2, float y2) = ball2.getPosition();
+            (float xSpeed2, float ySpeed2) = ball2.getSpeed();
+            (float x, float y) newSpeedBall1, newSpeedBall2,
+                               v1_v2 = (xSpeed1 - xSpeed2, ySpeed1 - ySpeed2),
+                               v2_v1 = (xSpeed2 - xSpeed1, ySpeed2 - ySpeed1),
+                               x1_x2 = (x1 - x2, y1 - y2),
+                               x2_x1 = (x2 - x1, y2 - y1);
+            float dist = EuclideanDistance(x1, y1, x2, y2);
+            float sqDist = dist * dist;
+            float coef1, coef2;
+            coef1 = (v1_v2.x * x1_x2.x + v1_v2.y * x1_x2.y) / sqDist;
+            coef2 = (v2_v1.x * x2_x1.x + v2_v1.y * x2_x1.y) / sqDist;
+            newSpeedBall1 = (xSpeed1 - x1_x2.x * coef1, ySpeed1 - x1_x2.y * coef1);
+            newSpeedBall2 = (xSpeed2 - x2_x1.x * coef2, ySpeed2 - x2_x1.y * coef2);
+            ball1.ChangeSpeed(newSpeedBall1.x, newSpeedBall1.y);
+            ball2.ChangeSpeed(newSpeedBall2.x, newSpeedBall2.y);
+        
 
 
     }
@@ -106,16 +109,18 @@ internal class BallManager : LogicAPI
     {
         
         float radius = Data.GetBallRadius();
-        if (EuclideanDistance(ball1, ball2) <= 2 * radius)
+        (float x1, float y1) = ball1.getPosition();
+        
+        (float x2, float y2) = ball2.getPosition();
+        
+        if (EuclideanDistance(x1, y1, x2, y2) <= 2 * radius)
         {
             return true;
         }
         return false;
     }
-    private float EuclideanDistance(IBall ball1, IBall ball2)
+    private float EuclideanDistance(float x1, float y1, float x2, float y2)
     {
-        (float x1, float y1) = ball1.getPosition();
-        (float x2, float y2) = ball2.getPosition();
         return (float)Math.Sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 
     }
@@ -141,13 +146,31 @@ internal class BallManager : LogicAPI
         }
         return ballPositions;
     }
+    private bool isOverlapping(float x1, float y1, float radius)
+    {
+        foreach (IBall Ball in Balls)
+        {
+            (float x2, float y2) = Ball.getPosition();
+            if (EuclideanDistance(x1, y1, x2, y2) <= radius * 2)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     // generate random ball position within the boundaries of the table (radius <= x < TableWidth - radius) and (radius <= y < TableHeight - radius)
     private (float x, float y) GenerateRandomBallPlacement()
     {
+        
         Random random = new();
         float radius = Data.GetBallRadius();
-        float x = (float)random.NextDouble() * (Data.GetTableWidth() - 2 * radius) + radius;
-        float y = (float)random.NextDouble() * (Data.GetTableHeight() - 2 * radius) + radius;
+        // check if ball doesnt overlap with another ball
+        float x, y;
+        do
+        {
+            x = (float)random.NextDouble() * (Data.GetTableWidth() - 2 * radius) + radius;
+            y = (float)random.NextDouble() * (Data.GetTableHeight() - 2 * radius) + radius;
+        } while (isOverlapping(x, y, radius));
         return (x, y);
     }
     // generate random ball speed (-maxSpeed <= (xSpeed, ySpeed) < maxSpeed)
