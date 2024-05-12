@@ -116,5 +116,8 @@
         {
             return (xSpeed, ySpeed);
         }
+
+        public override float getMass()
+        { return mass; }
     }
 }

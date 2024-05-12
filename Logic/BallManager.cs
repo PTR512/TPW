@@ -89,6 +89,8 @@ internal class BallManager : LogicAPI
             (float xSpeed1, float ySpeed1) = ball1.getSpeed();
             (float x2, float y2) = ball2.getPosition();
             (float xSpeed2, float ySpeed2) = ball2.getSpeed();
+            float m1 = ball1.getMass();
+            float m2 = ball2.getMass();
             (float x, float y) newSpeedBall1, newSpeedBall2,
                                v1_v2 = (xSpeed1 - xSpeed2, ySpeed1 - ySpeed2),
                                v2_v1 = (xSpeed2 - xSpeed1, ySpeed2 - ySpeed1),
@@ -99,8 +101,10 @@ internal class BallManager : LogicAPI
             float coef1, coef2;
             coef1 = (v1_v2.x * x1_x2.x + v1_v2.y * x1_x2.y) / sqDist;
             coef2 = (v2_v1.x * x2_x1.x + v2_v1.y * x2_x1.y) / sqDist;
-            newSpeedBall1 = (xSpeed1 - x1_x2.x * coef1, ySpeed1 - x1_x2.y * coef1);
-            newSpeedBall2 = (xSpeed2 - x2_x1.x * coef2, ySpeed2 - x2_x1.y * coef2);
+            float m1_m2 = (2*m2)/(m1+ m2);
+            float m2_m1 = (2*m1)/(m1+ m2);
+            newSpeedBall1 = (xSpeed1 - m1_m2 * x1_x2.x * coef1, ySpeed1 - m1_m2 * x1_x2.y * coef1);
+            newSpeedBall2 = (xSpeed2 - m2_m1 * x2_x1.x * coef2, ySpeed2 - m2_m1 * x2_x1.y * coef2);
             ball1.ChangeSpeed(newSpeedBall1.x, newSpeedBall1.y);
             ball2.ChangeSpeed(newSpeedBall2.x, newSpeedBall2.y);
         
