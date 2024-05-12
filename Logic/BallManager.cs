@@ -7,6 +7,7 @@ internal class BallManager : LogicAPI
     private DataAPI Data;
     private bool isRunning = false;
     private List<IBall> Balls;
+    private Object _locker = new Object();
 
     public BallManager(DataAPI Data, List<IBall> Balls)
     {
@@ -51,7 +52,7 @@ internal class BallManager : LogicAPI
     // check if the ball collides with a side of the table
     private void CheckCollisions(object? sender, EventArgs e)
     {
-        lock (Balls)
+        lock (_locker)
         {
             IBall Ball = (IBall)sender;
             (float x, float y) = Ball.getPosition();

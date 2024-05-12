@@ -6,7 +6,7 @@
         private readonly float width = 500;
         private readonly float height = 700;
         private readonly float ballRadius = 30;
-        private readonly float maxSpeed = 5;
+        private readonly float maxSpeed = 3;
 
         public override float GetBallRadius()
         {
