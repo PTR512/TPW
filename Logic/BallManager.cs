@@ -59,11 +59,11 @@ internal class BallManager : LogicAPI
             (float x, float y) = Ball.getPosition();
             (float xSpeed, float ySpeed) = Ball.getSpeed();
 
-            if (!WithinBoundariesOnAxis(x, Data.GetBallRadius(), Data.GetTableWidth()))
+            if (!WithinBoundariesOnAxis(x+xSpeed, Data.GetBallRadius(), Data.GetTableWidth()))
             {
                 xSpeed = -xSpeed;
             }
-            if (!WithinBoundariesOnAxis(y, Data.GetBallRadius(), Data.GetTableHeight()))
+            if (!WithinBoundariesOnAxis(y+ySpeed, Data.GetBallRadius(), Data.GetTableHeight()))
             {
                 ySpeed = -ySpeed;
             }
@@ -116,10 +116,12 @@ internal class BallManager : LogicAPI
         
         float radius = Data.GetBallRadius();
         (float x1, float y1) = ball1.getPosition();
+        (float x1Speed, float y1Speed) = ball1.getSpeed();
         
         (float x2, float y2) = ball2.getPosition();
-        
-        if (EuclideanDistance(x1, y1, x2, y2) <= 2 * radius)
+        (float x2Speed, float y2Speed) = ball2.getSpeed();
+
+        if (EuclideanDistance(x1+x1Speed, y1+y1Speed, x2+x2Speed, y2+y2Speed) <= 2 * radius)
         {
             return true;
         }
