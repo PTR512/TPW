@@ -24,7 +24,8 @@ internal class BallManager : LogicAPI
                 float radius = Data.GetBallRadius();
                 (float x, float y) = GenerateRandomBallPlacement();
                 (float xSpeed, float ySpeed) = GenerateRandomBallSpeed();
-                IBall ball = IBall.CreateInstance(x, y, radius, xSpeed, ySpeed, false);
+                float mass = Data.getBallMass();
+                IBall ball = IBall.CreateInstance(x, y, radius, xSpeed, ySpeed, false, mass);
                 Balls.Add(ball);
                 ball.ChangedPosition += CheckCollisions;
             }

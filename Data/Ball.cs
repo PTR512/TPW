@@ -8,10 +8,11 @@
         private float xSpeed;
         private float ySpeed;
         private bool isRunning;
+        private float mass;
 
         public override event EventHandler? ChangedPosition;
 
-        public Ball(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning)
+        public Ball(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning, float mass)
         {
             this.x = x;
             this.y = y;
@@ -19,6 +20,7 @@
             this.xSpeed = xSpeed;
             this.ySpeed = ySpeed;
             this.isRunning = isRunning;
+            this.mass = mass;
         }
         public void OnChangedPosition()
         {
@@ -60,6 +62,12 @@
         {
             get { return ySpeed; }
             set { ySpeed = value; }
+        }
+
+        public float Mass
+        { 
+            get { return mass; } 
+            set {  mass = value; }
         }
 
 

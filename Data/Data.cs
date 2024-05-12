@@ -7,6 +7,7 @@
         private readonly float height = 700;
         private readonly float ballRadius = 30;
         private readonly float maxSpeed = 3;
+        private readonly float ballMass = 10;
 
         public override float GetBallRadius()
         {
@@ -16,6 +17,11 @@
         public override float getMaxSpeed()
         {
             return maxSpeed;
+        }
+        
+        public override float getBallMass()
+        {
+            return ballMass;
         }
 
         public override float GetTableHeight()

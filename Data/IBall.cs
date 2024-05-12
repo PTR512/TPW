@@ -8,9 +8,9 @@
         public abstract void LetBallMove();
         public abstract (float, float) getPosition();
         public abstract (float, float) getSpeed();
-        public static IBall CreateInstance(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning)
+        public static IBall CreateInstance(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning, float mass)
         {
-            return new Ball(x, y, radius, xSpeed, ySpeed, isRunning);
+            return new Ball(x, y, radius, xSpeed, ySpeed, isRunning, mass);
         }
 
 

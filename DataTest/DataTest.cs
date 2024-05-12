@@ -7,7 +7,7 @@ namespace DataTest
         [TestMethod]
         public void BallTest()
         {
-            IBall ball = IBall.CreateInstance(0, 0, 1, 1, 1, false);
+            IBall ball = IBall.CreateInstance(0, 0, 1, 1, 1, false, 1);
             Assert.IsNotNull(ball);
             Assert.IsTrue((1, 1) == ball.getSpeed());
             Assert.IsTrue((0, 0) == ball.getPosition());
