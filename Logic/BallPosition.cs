@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Logic
 {
-    internal class BallPosition : IBallPosition
+    internal class BallPosition : Abstract.IBallPosition
     {
         private float x, y;
 

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.Intrinsics;
 namespace Logic;
-internal class BallManager : LogicAPI
+internal class BallManager : Abstract.LogicAPI
 {
     private DataAPI Data;
     private bool isRunning = false;
@@ -53,26 +53,24 @@ internal class BallManager : LogicAPI
     // check if the ball collides with a side of the table
     private void CheckCollisions(object? sender, EventArgs e)
     {
-        lock (_locker)
-        {
-            IBall Ball = (IBall)sender;
+        IBall Ball = (IBall)sender;
+        lock (_locker) { 
             (float x, float y) = Ball.getPosition();
             (float xSpeed, float ySpeed) = Ball.getSpeed();
-
-            if (!WithinBoundariesOnAxis(x+xSpeed, Data.GetBallRadius(), Data.GetTableWidth()))
+            if (!WithinBoundariesOnAxis(x + xSpeed, Data.GetBallRadius(), Data.GetTableWidth()))
             {
                 xSpeed = -xSpeed;
             }
-            if (!WithinBoundariesOnAxis(y+ySpeed, Data.GetBallRadius(), Data.GetTableHeight()))
+            if (!WithinBoundariesOnAxis(y + ySpeed, Data.GetBallRadius(), Data.GetTableHeight()))
             {
                 ySpeed = -ySpeed;
             }
+
             // checking collisions with balls on the table
             foreach (IBall OtherBall in Balls)
             {
                 if (OtherBall != Ball && IsColliding(Ball, OtherBall))
                 {
-
                     //function for calculating new velocity
                     ElasticCollision(Ball, OtherBall);
                     return;
@@ -84,7 +82,6 @@ internal class BallManager : LogicAPI
     private void ElasticCollision(IBall ball1, IBall ball2)
     {
         
-            //System.Diagnostics.Debug.WriteLine("Collision with another ball");
             (float x1, float y1) = ball1.getPosition();
             (float xSpeed1, float ySpeed1) = ball1.getSpeed();
             (float x2, float y2) = ball2.getPosition();
@@ -145,12 +142,12 @@ internal class BallManager : LogicAPI
 
     }
     // return a list of wrapped balls stripped from the ability to change the state of the original balls
-    public override List<IBallPosition> GetBalls()
+    public override List<Abstract.IBallPosition> GetBalls()
     {
-        List<IBallPosition> ballPositions = new List<IBallPosition>();
+        List<Abstract.IBallPosition> ballPositions = new List<Abstract.IBallPosition>();
         foreach (IBall Ball in Balls)
         {
-            ballPositions.Add(IBallPosition.CreateInstance(Ball));
+            ballPositions.Add(Abstract.IBallPosition.CreateInstance(Ball));
         }
         return ballPositions;
     }

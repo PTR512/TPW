@@ -1,7 +1,7 @@
 ﻿using Data.Abstract;
 using System.ComponentModel;
 
-namespace Logic
+namespace Logic.Abstract
 {
     public abstract class IBallPosition : INotifyPropertyChanged
     {

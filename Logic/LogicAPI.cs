@@ -1,7 +1,7 @@
 ﻿
 using Data.Abstract;
 
-namespace Logic
+namespace Logic.Abstract
 {
     public abstract class LogicAPI
     {

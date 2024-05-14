@@ -9,7 +9,6 @@
         private float ySpeed;
         private bool isRunning;
         private float mass;
-
         public override event EventHandler? ChangedPosition;
 
         public Ball(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning, float mass)
@@ -21,6 +20,9 @@
             this.ySpeed = ySpeed;
             this.isRunning = isRunning;
             this.mass = mass;
+            new Thread(new ThreadStart(Move)).Start();
+
+
         }
         public void OnChangedPosition()
         {
@@ -81,30 +83,27 @@
 
         private async void Move()
         {
-
-            while (isRunning)
+            while (true)
             {
-                X += xSpeed;
-                Y += ySpeed;
-                OnChangedPosition();
-                await Task.Delay(5);
+                while (isRunning)
+                {
+                    X += xSpeed;
+                    Y += ySpeed;
+                    OnChangedPosition();
+                    await Task.Delay(5);
+                }
             }
+            
 
         }
 
         public override void StopBall()
         {
-
             isRunning = false;
         }
         public override void LetBallMove()
         {
-            if (!isRunning)
-            {
-                isRunning = true;
-                Task.Run(Move);
-            }
-
+            isRunning = true;               
         }
 
         public override (float, float) getPosition()
