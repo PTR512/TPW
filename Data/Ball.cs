@@ -85,13 +85,13 @@
         {
             while (true)
             {
-                while (isRunning)
+                if (isRunning)
                 {
                     X += xSpeed;
                     Y += ySpeed;
                     OnChangedPosition();
-                    await Task.Delay(5);
                 }
+                await Task.Delay(5);
             }
             
 

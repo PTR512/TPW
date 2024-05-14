@@ -1,4 +1,4 @@
-using Logic;
+using Logic.Abstract;
 using Moq;
 
 namespace LogicTest
