@@ -19,11 +19,12 @@ namespace DataTest
         public void TableTest()
         {
             DataAPI data = DataAPI.CreateInstance();
-            Assert.IsTrue(data.GetTableWidth() == 700);
-            Assert.IsTrue(data.GetTableHeight() == 500);
-            Assert.IsTrue(data.getMaxSpeed() == 5);
+            Assert.IsTrue(data.GetTableWidth() == 500);
+            Assert.IsTrue(data.GetTableHeight() == 700);
+            Assert.IsTrue(data.getMaxSpeed() == 3);
             Assert.IsTrue(data.GetBallRadius() == 30);
-            
+            Assert.IsTrue(data.getBallMass() == 10);
+
         }
     }
 }
