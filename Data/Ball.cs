@@ -20,7 +20,7 @@
             this.ySpeed = ySpeed;
             this.isRunning = isRunning;
             this.mass = mass;
-            new Thread(new ThreadStart(Move)).Start();
+            new Thread(Move).Start();
 
 
         }
@@ -81,7 +81,7 @@
         }
 
 
-        private async void Move()
+        private void Move()
         {
             while (true)
             {
@@ -91,7 +91,7 @@
                     Y += ySpeed;
                     OnChangedPosition();
                 }
-                await Task.Delay(5);
+                Thread.Sleep(5);
             }
             
 
