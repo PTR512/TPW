@@ -20,7 +20,7 @@
             this.ySpeed = ySpeed;
             this.isRunning = isRunning;
             this.mass = mass;
-            new Thread(Move).Start();
+            new Thread(new ThreadStart(Move)).Start();
 
 
         }
@@ -28,73 +28,28 @@
         {
             ChangedPosition?.Invoke(this, new EventArgs());
         }
-        public float X
-        {
-            get { return x; }
-            private set
-            {
-                x = value;
-
-            }
-        }
-
-        public float Y
-        {
-            get { return y; }
-            private set
-            {
-                y = value;
-
-            }
-        }
-
-        public float Radius
-        {
-            get { return radius; }
-
-        }
-
-        public float XSpeed
-        {
-            get { return xSpeed; }
-            set { xSpeed = value; }
-        }
-
-        public float YSpeed
-        {
-            get { return ySpeed; }
-            set { ySpeed = value; }
-        }
-
-        public float Mass
-        { 
-            get { return mass; } 
-            set {  mass = value; }
-        }
-
-
         public override void ChangeSpeed(float xSpeed, float ySpeed)
         {
 
-            this.XSpeed = xSpeed;
-            this.YSpeed = ySpeed;
+            this.xSpeed = xSpeed;
+            this.ySpeed = ySpeed;
         }
 
 
-        private void Move()
+        private async void Move()
         {
+            // trzeba uwzglednic czas przy liczeniu predkosci
             while (true)
             {
                 if (isRunning)
                 {
-                    X += xSpeed;
-                    Y += ySpeed;
+                    x += xSpeed;
+                    y += ySpeed;
                     OnChangedPosition();
                 }
-                Thread.Sleep(5);
+                await Task.Delay(5);
             }
-            
-
+         
         }
 
         public override void StopBall()
@@ -108,7 +63,7 @@
 
         public override (float, float) getPosition()
         {
-            return (X, Y);
+            return (x, y);
         }
 
         public override (float, float) getSpeed()
