@@ -1,17 +1,21 @@
-﻿namespace Data.Abstract
+﻿using System.Numerics;
+
+namespace Data.Abstract
 {
     public abstract class IBall
     {
         public abstract event EventHandler? ChangedPosition;
-        public abstract void ChangeSpeed(float xSpeed, float ySpeed);
+        public abstract void ChangeSpeed(Vector2 speed);
         public abstract void StopBall();
         public abstract void LetBallMove();
-        public abstract (float, float) getPosition();
-        public abstract (float, float) getSpeed();
+        public abstract Vector2 getPosition();
+        public abstract Vector2 getSpeed();
+        // provides X, Y, speedX, speedY
+        public abstract Vector4 getPositionAndSpeed();
         public abstract float getMass();
-        public static IBall CreateInstance(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning, float mass)
+        public static IBall CreateInstance(Vector2 position, float radius, Vector2 speed, bool isRunning, float mass)
         {
-            return new Ball(x, y, radius, xSpeed, ySpeed, isRunning, mass);
+            return new Ball(position, radius, speed, isRunning, mass);
         }
 
 

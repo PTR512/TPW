@@ -18,7 +18,7 @@
         {
             return maxSpeed;
         }
-        
+
         public override float getBallMass()
         {
             return ballMass;

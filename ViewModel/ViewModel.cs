@@ -11,7 +11,7 @@ namespace ViewModel
         ModelAPI modelAPI = ModelAPI.CreateInstance();
         private ObservableCollection<object>? _balls;
 
-        
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged([CallerMemberName] string? propertyname = null)

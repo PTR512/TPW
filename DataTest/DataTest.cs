@@ -1,4 +1,5 @@
 using Data.Abstract;
+using System.Numerics;
 namespace DataTest
 {
     [TestClass]
@@ -7,13 +8,19 @@ namespace DataTest
         [TestMethod]
         public void BallTest()
         {
-            IBall ball = IBall.CreateInstance(0, 0, 1, 1, 1, false, 1);
+            Vector2 position = new Vector2(0, 0);
+            Vector2 speed = new Vector2(1, 1);
+            IBall ball = IBall.CreateInstance(position, 1, speed, false, 1);
             Assert.IsNotNull(ball);
-            Assert.IsTrue((1, 1) == ball.getSpeed());
-            Assert.IsTrue((0, 0) == ball.getPosition());
+            Assert.IsTrue(1 == ball.getSpeed().X);
+            Assert.IsTrue(1 == ball.getSpeed().Y);
+            Assert.IsTrue(0 == ball.getPosition().X);
+            Assert.IsTrue(0 == ball.getPosition().Y);
             ball.LetBallMove();
-            ball.ChangeSpeed(1, 2);
-            Assert.IsTrue((1, 2) == ball.getSpeed());
+            Vector2 newSpeed = new Vector2(2, 3);
+            ball.ChangeSpeed(newSpeed);
+            Assert.IsTrue(2 == ball.getSpeed().X);
+            Assert.IsTrue(3 == ball.getSpeed().Y);
         }
         [TestMethod]
         public void TableTest()

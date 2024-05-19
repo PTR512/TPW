@@ -1,5 +1,6 @@
 using Logic.Abstract;
 using Moq;
+using System.Numerics;
 
 namespace LogicTest
 {
@@ -13,8 +14,8 @@ namespace LogicTest
             Mock<Data.Abstract.IBall> BallSim = new Mock<Data.Abstract.IBall>();
             BallSim.Setup(b => b.StopBall());
             BallSim.Setup(b => b.LetBallMove());
-            BallSim.Setup(b => b.getPosition()).Returns((1, 1));
-            BallSim.Setup(b => b.getSpeed()).Returns((1, 1));
+            BallSim.Setup(b => b.getPosition()).Returns(new Vector2(1,1));
+            BallSim.Setup(b => b.getSpeed()).Returns(new Vector2(1, 1));
 
             Mock<Data.Abstract.DataAPI> DataAPISim = new Mock<Data.Abstract.DataAPI>();
             DataAPISim.Setup(d => d.GetTableWidth()).Returns(500);

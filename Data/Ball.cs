@@ -1,23 +1,21 @@
-﻿namespace Data
+﻿using System.Numerics;
+
+namespace Data
 {
     internal class Ball : Abstract.IBall
     {
-        private float x;
-        private float y;
+        private Vector2 position;
         private float radius;
-        private float xSpeed;
-        private float ySpeed;
+        private Vector2 speed;
         private bool isRunning;
         private float mass;
         public override event EventHandler? ChangedPosition;
 
-        public Ball(float x, float y, float radius, float xSpeed, float ySpeed, bool isRunning, float mass)
+        public Ball(Vector2 position, float radius, Vector2 speed, bool isRunning, float mass)
         {
-            this.x = x;
-            this.y = y;
+            this.position = position;
             this.radius = radius;
-            this.xSpeed = xSpeed;
-            this.ySpeed = ySpeed;
+            this.speed = speed;
             this.isRunning = isRunning;
             this.mass = mass;
             new Thread(new ThreadStart(Move)).Start();
@@ -28,11 +26,10 @@
         {
             ChangedPosition?.Invoke(this, new EventArgs());
         }
-        public override void ChangeSpeed(float xSpeed, float ySpeed)
+        public override void ChangeSpeed(Vector2 speed)
         {
 
-            this.xSpeed = xSpeed;
-            this.ySpeed = ySpeed;
+            this.speed = speed;
         }
 
 
@@ -43,13 +40,12 @@
             {
                 if (isRunning)
                 {
-                    x += xSpeed;
-                    y += ySpeed;
+                    position += speed;
                     OnChangedPosition();
                 }
                 await Task.Delay(5);
             }
-         
+
         }
 
         public override void StopBall()
@@ -58,20 +54,25 @@
         }
         public override void LetBallMove()
         {
-            isRunning = true;               
+            isRunning = true;
         }
 
-        public override (float, float) getPosition()
+        public override Vector2 getPosition()
         {
-            return (x, y);
+            return position;
         }
 
-        public override (float, float) getSpeed()
+        public override Vector2 getSpeed()
         {
-            return (xSpeed, ySpeed);
+            return speed;
         }
 
         public override float getMass()
         { return mass; }
+
+        public override Vector4 getPositionAndSpeed()
+        {
+            return new Vector4(position.X, position.Y, speed.X, speed.Y);
+        }
     }
 }
