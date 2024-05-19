@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics;
+using System.Numerics;
 
 namespace Data
 {
@@ -35,15 +36,21 @@ namespace Data
 
         private async void Move()
         {
+            Stopwatch stopWatch = new Stopwatch();
             // trzeba uwzglednic czas przy liczeniu predkosci
             while (true)
             {
+                
                 if (isRunning)
                 {
+                    stopWatch.Start();
                     position += speed;
                     OnChangedPosition();
+                    stopWatch.Stop();
                 }
-                await Task.Delay(5);
+                float velocity = (float)Math.Sqrt(speed.X * speed.X + speed.Y * speed.Y);
+                Debug.WriteLine(stopWatch.ElapsedMilliseconds + " " + velocity);
+                await Task.Delay(TimeSpan.FromMilliseconds(velocity * (stopWatch.ElapsedMilliseconds + 5) / 5));
             }
 
         }
