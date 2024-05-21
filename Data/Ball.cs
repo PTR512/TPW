@@ -37,20 +37,24 @@ namespace Data
         private async void Move()
         {
             Stopwatch stopWatch = new Stopwatch();
+            float multiplier = 0;
             // trzeba uwzglednic czas przy liczeniu predkosci
             while (true)
             {
                 
                 if (isRunning)
                 {
-                    stopWatch.Start();
-                    position += speed;
+                    position += speed * multiplier;
                     OnChangedPosition();
-                    stopWatch.Stop();
                 }
-                float velocity = (float)Math.Sqrt(speed.X * speed.X + speed.Y * speed.Y);
-                Debug.WriteLine(stopWatch.ElapsedMilliseconds + " " + velocity);
-                await Task.Delay(TimeSpan.FromMilliseconds(velocity * (stopWatch.ElapsedMilliseconds + 5) / 5));
+
+                //Debug.WriteLine(stopWatch.Elapsed.TotalMilliseconds + " " + multiplier);
+
+                //await Task.Delay(TimeSpan.FromMilliseconds(velocity * (stopWatch.ElapsedMilliseconds + 5) / 5));
+                stopWatch.Restart();
+                await Task.Delay(5);
+                stopWatch.Stop();
+                multiplier = ((float) stopWatch.Elapsed.TotalMilliseconds) / 5;
             }
 
         }
