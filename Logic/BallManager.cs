@@ -49,49 +49,49 @@ internal class BallManager : Abstract.LogicAPI
 
 
     }
-    // check if the ball collides with a side of the table
+    // check if the ball collides with a side of the table or another ball
     private void CheckCollisions(object? sender, EventArgs e)
     {
         IBall Ball = (IBall)sender;
         lock (_locker)
         {
-            Vector4 positionAndSpeed = Ball.getPositionAndSpeed();
-            float x = positionAndSpeed[0];
-            float y = positionAndSpeed[1];
-            float xSpeed = positionAndSpeed[2];
-            float ySpeed = positionAndSpeed[3];
-            if (!WithinBoundariesOnAxis(x + xSpeed, Data.GetBallRadius(), Data.GetTableWidth()))
+            Vector4 positionAndSpeed1 = Ball.getPositionAndSpeed();
+            float x = positionAndSpeed1[0];
+            float y = positionAndSpeed1[1];
+            float xSpeed = positionAndSpeed1[2];
+            float ySpeed = positionAndSpeed1[3];
+            if (CheckWallCollision(x + xSpeed, xSpeed, Data.GetBallRadius(), Data.GetTableWidth()))
             {
                 xSpeed = -xSpeed;
             }
-            if (!WithinBoundariesOnAxis(y + ySpeed, Data.GetBallRadius(), Data.GetTableHeight()))
+            if (CheckWallCollision(y + ySpeed, ySpeed, Data.GetBallRadius(), Data.GetTableHeight()))
             {
                 ySpeed = -ySpeed;
             }
-
+            Vector2 speed = new Vector2(xSpeed, ySpeed);
+            Ball.ChangeSpeed(speed);
             // checking collisions with balls on the table
             foreach (IBall OtherBall in Balls)
             {
-                if (OtherBall != Ball && IsColliding(Ball, OtherBall))
+                Vector4 positionAndSpeed2 = OtherBall.getPositionAndSpeed();
+                if (OtherBall != Ball && IsColliding(Ball, positionAndSpeed1, OtherBall, positionAndSpeed2))
                 {
                     //function for calculating new velocity
-                    ElasticCollision(Ball, OtherBall);
+                    ElasticCollision(Ball, positionAndSpeed1, OtherBall, positionAndSpeed2);
                     return;
                 }
             }
-            Vector2 speed = new Vector2(xSpeed, ySpeed);
-            Ball.ChangeSpeed(speed);
+            
         }
     }
-    private void ElasticCollision(IBall ball1, IBall ball2)
+    private void ElasticCollision(IBall ball1, Vector4 positionAndSpeed1, IBall ball2, Vector4 positionAndSpeed2)
     {
 
-        Vector4 positionAndSpeed1 = ball1.getPositionAndSpeed();
         float x1 = positionAndSpeed1[0];
         float y1 = positionAndSpeed1[1];
         float xSpeed1 = positionAndSpeed1[2];
         float ySpeed1 = positionAndSpeed1[3];
-        Vector4 positionAndSpeed2 = ball2.getPositionAndSpeed();
+        
         float x2 = positionAndSpeed2[0];
         float y2 = positionAndSpeed2[1];
         float xSpeed2 = positionAndSpeed2[2];
@@ -120,19 +120,19 @@ internal class BallManager : Abstract.LogicAPI
 
 
     }
-    private bool IsColliding(IBall ball1, IBall ball2)
+    private bool IsColliding(IBall ball1, Vector4 positionAndSpeed1, IBall ball2, Vector4 positionAndSpeed2)
     {
 
         float radius = Data.GetBallRadius();
-        float x1 = ball1.getPosition()[0];
-        float y1 = ball1.getPosition()[1];
-        float x1Speed = ball1.getSpeed()[0];
-        float y1Speed = ball1.getSpeed()[1];
+        float x1 = positionAndSpeed1[0];
+        float y1 = positionAndSpeed1[1];
+        float x1Speed = positionAndSpeed1[2];
+        float y1Speed = positionAndSpeed1[3];
 
-        float x2 = ball2.getPosition()[0];
-        float y2 = ball2.getPosition()[1];
-        float x2Speed = ball2.getSpeed()[0];
-        float y2Speed = ball2.getSpeed()[1];
+        float x2 = positionAndSpeed2[0];
+        float y2 = positionAndSpeed2[1];
+        float x2Speed = positionAndSpeed2[2];
+        float y2Speed = positionAndSpeed2[3];
 
         if (EuclideanDistance(x1 + x1Speed, y1 + y1Speed, x2 + x2Speed, y2 + y2Speed) <= 2 * radius)
         {
@@ -167,7 +167,8 @@ internal class BallManager : Abstract.LogicAPI
         }
         return ballPositions;
     }
-    private bool isOverlapping(float x1, float y1, float radius)
+    // function for checking if balls are overlapping during generating random placement
+    private bool isOverlapping(float x1, float y1, float radius) 
     {
         foreach (IBall Ball in Balls)
         {
@@ -206,9 +207,11 @@ internal class BallManager : Abstract.LogicAPI
         speed.Y = ((float)random.NextDouble() * 2 * maxSpeed) - maxSpeed;
         return speed;
     }
-    private static bool WithinBoundariesOnAxis(float pos, float radius, float boundary)
+    private static bool CheckWallCollision(float pos, float speed, float radius, float boundary)
     {
-        return 0 <= (pos - radius) && (pos + radius) <= boundary;
+        if ((pos - radius) <= 0 && speed < 0) { return true; }
+        if ((pos + radius) >= boundary && speed > 0) { return true; }
+        return false;
     }
 
 
