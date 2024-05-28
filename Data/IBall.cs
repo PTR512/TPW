@@ -8,8 +8,6 @@ namespace Data.Abstract
         public abstract void ChangeSpeed(Vector2 speed);
         public abstract void StopBall();
         public abstract void LetBallMove();
-        public abstract Vector2 getPosition();
-        public abstract Vector2 getSpeed();
         // provides X, Y, speedX, speedY
         public abstract Vector4 getPositionAndSpeed();
         public abstract float getMass();

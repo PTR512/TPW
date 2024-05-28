@@ -12,15 +12,15 @@ namespace DataTest
             Vector2 speed = new Vector2(1, 1);
             IBall ball = IBall.CreateInstance(position, 1, speed, false, 1);
             Assert.IsNotNull(ball);
-            Assert.IsTrue(1 == ball.getSpeed().X);
-            Assert.IsTrue(1 == ball.getSpeed().Y);
-            Assert.IsTrue(0 == ball.getPosition().X);
-            Assert.IsTrue(0 == ball.getPosition().Y);
+            Assert.IsTrue(1 == ball.getPositionAndSpeed()[2]);
+            Assert.IsTrue(1 == ball.getPositionAndSpeed()[3]);
+            Assert.IsTrue(0 == ball.getPositionAndSpeed()[0]);
+            Assert.IsTrue(0 == ball.getPositionAndSpeed()[1]);
             ball.LetBallMove();
             Vector2 newSpeed = new Vector2(2, 3);
             ball.ChangeSpeed(newSpeed);
-            Assert.IsTrue(2 == ball.getSpeed().X);
-            Assert.IsTrue(3 == ball.getSpeed().Y);
+            Assert.IsTrue(2 == ball.getPositionAndSpeed()[2]);
+            Assert.IsTrue(3 == ball.getPositionAndSpeed()[3]);
         }
         [TestMethod]
         public void TableTest()

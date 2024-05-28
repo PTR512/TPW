@@ -172,8 +172,9 @@ internal class BallManager : Abstract.LogicAPI
     {
         foreach (IBall Ball in Balls)
         {
-            float x2 = Ball.getPosition()[0];
-            float y2 = Ball.getPosition()[1];
+            Vector4 vector4 = Ball.getPositionAndSpeed();
+            float x2 = vector4[0];
+            float y2 = vector4[1];
             if (EuclideanDistance(x1, y1, x2, y2) <= radius * 2)
             {
                 return true;

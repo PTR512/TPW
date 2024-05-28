@@ -13,7 +13,8 @@ namespace Logic
 
         public BallPosition(IBall Ball)
         {
-            position = Ball.getPosition();
+            Vector4 vector4 = Ball.getPositionAndSpeed();
+            position = new Vector2(vector4[0], vector4[1]);
             X = position.X;
             Y = position.Y;
             Ball.ChangedPosition += OnChagedPosition;
@@ -23,7 +24,8 @@ namespace Logic
         {
 
             IBall Ball = (IBall)sender;
-            position = Ball.getPosition();
+            Vector4 vector4 = Ball.getPositionAndSpeed();
+            position = new Vector2(vector4[0], vector4[1]);
             X = position.X;
             Y = position.Y;
         }

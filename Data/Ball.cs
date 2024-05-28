@@ -64,16 +64,6 @@ namespace Data
             isRunning = true;
         }
 
-        public override Vector2 getPosition()
-        {
-            return position;
-        }
-
-        public override Vector2 getSpeed()
-        {
-            return speed;
-        }
-
         public override float getMass()
         { return mass; }
 
