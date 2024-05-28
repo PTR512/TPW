@@ -10,7 +10,6 @@ namespace Data.Abstract
         public abstract void LetBallMove();
         // provides X, Y, speedX, speedY
         public abstract Vector4 getPositionAndSpeed();
-        public abstract float getMass();
         public static IBall CreateInstance(Vector2 position, float radius, Vector2 speed, bool isRunning, float mass)
         {
             return new Ball(position, radius, speed, isRunning, mass);
