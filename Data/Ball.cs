@@ -1,24 +1,21 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Data
 {
     internal class Ball : Abstract.IBall
     {
         private Vector2 position;
-        private float radius;
         private Vector2 speed;
         private bool isRunning;
-        private float mass;
         public override event EventHandler? ChangedPosition;
 
-        public Ball(Vector2 position, float radius, Vector2 speed, bool isRunning, float mass)
+        public Ball(Vector2 position, Vector2 speed, bool isRunning)
         {
             this.position = position;
-            this.radius = radius;
             this.speed = speed;
             this.isRunning = isRunning;
-            this.mass = mass;
             new Thread(new ThreadStart(Move)).Start();
 
 
@@ -39,18 +36,20 @@ namespace Data
 
             Stopwatch stopWatch = new Stopwatch();
             float multiplier = 0;
-            
+            double start = 0;
+            double end = 0;
+            stopWatch.Start();
             while (true)
             {
-                stopWatch.Restart();
+                start = stopWatch.Elapsed.TotalMilliseconds;
                 if (isRunning)
                 {
                     position += speed * multiplier;
                     OnChangedPosition();
                 }
                 await Task.Delay(5);
-                stopWatch.Stop();
-                multiplier = ((float) stopWatch.Elapsed.TotalMilliseconds) / 5;
+                end = stopWatch.Elapsed.TotalMilliseconds;
+                multiplier = (float) ((end - start) / 5);
             }
 
         }
