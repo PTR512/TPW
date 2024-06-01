@@ -96,8 +96,8 @@ internal class BallManager : Abstract.LogicAPI
         float y2 = positionAndSpeed2[1];
         float xSpeed2 = positionAndSpeed2[2];
         float ySpeed2 = positionAndSpeed2[3];
-        float m1 = ball1.getMass();
-        float m2 = ball2.getMass();
+        float m1 = Data.getBallMass();
+        float m2 = Data.getBallMass();
         Vector2 newSpeedBall1, newSpeedBall2;
         (float x, float y) v1_v2 = (xSpeed1 - xSpeed2, ySpeed1 - ySpeed2),
                            v2_v1 = (xSpeed2 - xSpeed1, ySpeed2 - ySpeed1),
@@ -172,8 +172,9 @@ internal class BallManager : Abstract.LogicAPI
     {
         foreach (IBall Ball in Balls)
         {
-            float x2 = Ball.getPosition()[0];
-            float y2 = Ball.getPosition()[1];
+            Vector4 vector4 = Ball.getPositionAndSpeed();
+            float x2 = vector4[0];
+            float y2 = vector4[1];
             if (EuclideanDistance(x1, y1, x2, y2) <= radius * 2)
             {
                 return true;

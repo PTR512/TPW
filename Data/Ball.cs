@@ -63,19 +63,6 @@ namespace Data
             isRunning = true;
         }
 
-        public override Vector2 getPosition()
-        {
-            return position;
-        }
-
-        public override Vector2 getSpeed()
-        {
-            return speed;
-        }
-
-        public override float getMass()
-        { return mass; }
-
         public override Vector4 getPositionAndSpeed()
         {
             return new Vector4(position.X, position.Y, speed.X, speed.Y);
