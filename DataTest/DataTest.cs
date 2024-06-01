@@ -10,7 +10,7 @@ namespace DataTest
         {
             Vector2 position = new Vector2(0, 0);
             Vector2 speed = new Vector2(1, 1);
-            IBall ball = IBall.CreateInstance(position, 1, speed, false, 1);
+            IBall ball = IBall.CreateInstance(position, speed, false);
             Assert.IsNotNull(ball);
             Assert.IsTrue(1 == ball.getPositionAndSpeed()[2]);
             Assert.IsTrue(1 == ball.getPositionAndSpeed()[3]);
