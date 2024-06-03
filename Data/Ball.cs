@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Logic;
+using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
@@ -48,6 +49,7 @@ namespace Data
                     OnChangedPosition();
                 }
                 await Task.Delay(5);
+                Logger.logBallInfo(this);
                 end = stopWatch.Elapsed.TotalMilliseconds;
                 multiplier = (float) ((end - start) / 5);
             }
