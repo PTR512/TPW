@@ -24,7 +24,7 @@ internal class BallManager : Abstract.LogicAPI
                 Vector2 position = GenerateRandomBallPlacement();
                 Vector2 speed = GenerateRandomBallSpeed();
                 float mass = Data.getBallMass();
-                IBall ball = IBall.CreateInstance(position, speed, false);
+                IBall ball = IBall.CreateInstance(position, speed, false, i);
                 Balls.Add(ball);
                 ball.ChangedPosition += CheckCollisions;
             }

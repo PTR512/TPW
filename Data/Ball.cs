@@ -9,13 +9,15 @@ namespace Data
         private Vector2 position;
         private Vector2 speed;
         private bool isRunning;
+        private int id;
         public override event EventHandler? ChangedPosition;
 
-        public Ball(Vector2 position, Vector2 speed, bool isRunning)
+        public Ball(Vector2 position, Vector2 speed, bool isRunning, int id)
         {
             this.position = position;
             this.speed = speed;
             this.isRunning = isRunning;
+            this.id = id;
             new Thread(new ThreadStart(Move)).Start();
 
 
@@ -35,9 +37,9 @@ namespace Data
         {
 
             Stopwatch stopWatch = new Stopwatch();
-            float multiplier = 0;
-            double start = 0;
-            double end = 0;
+            float multiplier = 1;
+            double start;
+            double end;
             stopWatch.Start();
             while (true)
             {
@@ -48,7 +50,9 @@ namespace Data
                     OnChangedPosition();
                 }
                 await Task.Delay(5);
-                Logger.logBallInfo(this);
+                Vector4 ballInfo = this.getPositionAndSpeed();
+                
+                Logger.logBallInfo(id, ballInfo);
                 end = stopWatch.Elapsed.TotalMilliseconds;
                 multiplier = (float) ((end - start) / 5);
             }

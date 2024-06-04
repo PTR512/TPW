@@ -11,9 +11,9 @@ namespace Data.Abstract
 
         // provides X, Y, speedX, speedY
         public abstract Vector4 getPositionAndSpeed();
-        public static IBall CreateInstance(Vector2 position, Vector2 speed, bool isRunning)
+        public static IBall CreateInstance(Vector2 position, Vector2 speed, bool isRunning, int id)
         {
-            return new Ball(position, speed, isRunning);
+            return new Ball(position, speed, isRunning, id);
         }
 
 
