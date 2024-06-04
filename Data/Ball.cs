@@ -48,11 +48,11 @@ namespace Data
                 {
                     position += speed * multiplier;
                     OnChangedPosition();
+                    Vector4 ballInfo = this.getPositionAndSpeed();
+                    Logger.logBallInfo(id, ballInfo);
                 }
                 await Task.Delay(5);
-                Vector4 ballInfo = this.getPositionAndSpeed();
                 
-                Logger.logBallInfo(id, ballInfo);
                 end = stopWatch.Elapsed.TotalMilliseconds;
                 multiplier = (float) ((end - start) / 5);
             }
