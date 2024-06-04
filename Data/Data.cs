@@ -3,6 +3,8 @@
     internal class Data : Abstract.DataAPI
 
     {
+        public Data() { new Thread(new ThreadStart(Logger.saveLogToFile)).Start(); }
+        
         private readonly float width = 500;
         private readonly float height = 700;
         private readonly float ballRadius = 30;
