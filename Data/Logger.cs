@@ -5,19 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 namespace Data
 {
+    internal record BallInfoRecord(DateTime timestamp, int id, float x, float y, float xSpeed, float ySpeed);
     static internal class Logger
     {
-        static BlockingCollection<FormattableString> blockingCollection = new BlockingCollection<FormattableString>(15);
+        static BlockingCollection<BallInfoRecord> blockingCollection = new BlockingCollection<BallInfoRecord>(15);
         static StreamWriter file = new StreamWriter($"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName}/logs.json", append: true);
 
-    static public void logBallInfo(int id, Vector4 ballInfo)
+    static public void logBallInfo(int id, Vector4 ballInfo, DateTime timestamp)
         {
-            FormattableString ballInfoString = $"{{\"Time\": \"{DateTime.Now}\", \"id\":\"{id}\", \"x\": \"{ballInfo[0]}\", \"y\": \"{ballInfo[1]}\", \"xSpeed\": \"{ballInfo[2]}\", \"ySpeed\": \"{ballInfo[3]}\" }} \n";
-            blockingCollection.TryAdd(ballInfoString);
+            BallInfoRecord info = new(timestamp, id, ballInfo[0], ballInfo[1], ballInfo[2], ballInfo[3]);
+            blockingCollection.TryAdd(info);
 
         }
         static public async void saveLogToFile()
@@ -27,8 +29,8 @@ namespace Data
                 {
                     foreach (var item in blockingCollection.GetConsumingEnumerable())
                     {
-                        file.Write(item);
-                    await Task.Delay(100);
+                    string ballInfoString = JsonSerializer.Serialize(item);
+                    file.Write(ballInfoString);
                     }
                 }
                 catch (Exception e)

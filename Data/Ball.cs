@@ -48,8 +48,9 @@ namespace Data
                 {
                     position += speed * multiplier;
                     OnChangedPosition();
+                    DateTime timestamp = DateTime.Now;
                     Vector4 ballInfo = this.getPositionAndSpeed();
-                    Logger.logBallInfo(id, ballInfo);
+                    Logger.logBallInfo(id, ballInfo, timestamp);
                 }
                 await Task.Delay(5);
                 
