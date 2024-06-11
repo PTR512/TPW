@@ -13,7 +13,7 @@ namespace Data
         private bool isDisposed = false;
         private static Logger logger = null;
         private static Thread _worker = null;
-
+        private static Object _lock = new Object();
         private Logger()
         {
             blockingCollection = new BlockingCollection<BallInfoRecord>(15);
@@ -21,13 +21,16 @@ namespace Data
 
         public static Logger getLogger()
         {
-            if (logger == null)
+            lock (_lock)
             {
-                logger = new Logger();
-                _worker = new Thread(new ThreadStart(logger.saveLogToFile));
-                _worker.Start();
+                if (logger == null)
+                {
+                    logger = new Logger();
+                    _worker = new Thread(new ThreadStart(logger.saveLogToFile));
+                    _worker.Start();
+                }
+                return logger;
             }
-            return logger;
         }
 
         public void logBallInfo(int id, Vector4 ballInfo, DateTime timestamp)
@@ -39,15 +42,17 @@ namespace Data
         private async void saveLogToFile()
         {
 
-            using (StreamWriter file = new StreamWriter($"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName}/logs.json", append: true, Encoding.UTF8))
-            {
-                file.AutoFlush = true;
-                foreach (var item in blockingCollection.GetConsumingEnumerable())
+                using (StreamWriter file = new StreamWriter($"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName}/logs.json", append: true, Encoding.UTF8))
                 {
-                    string ballInfoString = JsonSerializer.Serialize(item);
-                    await file.WriteLineAsync(ballInfoString);
+                    file.AutoFlush = true;
+                    foreach (var item in blockingCollection.GetConsumingEnumerable())
+                    {
+                        string ballInfoString = JsonSerializer.Serialize(item);
+                        await file.WriteLineAsync(ballInfoString);
+                    }
+                
                 }
-            }
+
         }
 
         public void Dispose()
