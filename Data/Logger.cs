@@ -48,7 +48,7 @@ namespace Data
                     foreach (var item in blockingCollection.GetConsumingEnumerable())
                     {
                         string ballInfoString = JsonSerializer.Serialize(item);
-                        await file.WriteLineAsync(ballInfoString);
+                        await file.WriteAsync(ballInfoString);
                     }
                 
                 }
