@@ -47,13 +47,16 @@ namespace Data
         {
 
                 using (StreamWriter file = new StreamWriter($"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName}/logs.json", append: true, Encoding.UTF8))
-                { 
+                {
                     foreach (var item in blockingCollection.GetConsumingEnumerable())
                     {
-                        string ballInfoString = JsonSerializer.Serialize(item);
-                        await file.WriteLineAsync(ballInfoString);
+                    string ballInfoString = JsonSerializer.Serialize(item);
+                    file.WriteLine(ballInfoString);
                     }
+                
                 }
+
+            System.Diagnostics.Debug.WriteLine("Wykonuje sie");
         }
 
         public void Dispose()
