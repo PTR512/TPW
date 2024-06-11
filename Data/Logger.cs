@@ -11,11 +11,11 @@ using System.Threading.Tasks.Dataflow;
 namespace Data
 {
     internal record BallInfoRecord(DateTime timestamp, int id, float x, float y, float xSpeed, float ySpeed);
-    static internal class Logger
+    internal class Logger : IDisposable
     {
         static BlockingCollection<BallInfoRecord> blockingCollection = new BlockingCollection<BallInfoRecord>(15);
-        static StreamWriter file = new StreamWriter($"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName}/logs.json", append: true);
-
+        static StreamWriter file = new StreamWriter($"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName}/logs.json", append: true, Encoding.UTF8);
+        bool isDisposed = false;
     static public void logBallInfo(int id, Vector4 ballInfo, DateTime timestamp)
         {
             BallInfoRecord info = new(timestamp, id, ballInfo[0], ballInfo[1], ballInfo[2], ballInfo[3]);
@@ -37,10 +37,22 @@ namespace Data
                 {
 
                 }
-            
+                
             
             file.Close();
 
+        }
+        void IDisposable.Dispose()
+        {
+            if (!isDisposed)
+            {
+                blockingCollection.CompleteAdding();
+                // tutaj thread.join() i thread.dispose
+                blockingCollection.Dispose();
+                file.Flush ();  // chyba
+                file.Dispose();
+                isDisposed = true;
+            }
         }
     }
 }
