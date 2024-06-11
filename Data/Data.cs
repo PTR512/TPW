@@ -3,7 +3,7 @@
     internal class Data : Abstract.DataAPI
 
     {
-        public Data() { new Thread(new ThreadStart(Logger.saveLogToFile)).Start(); }
+        public Data() {}
         
         private readonly float width = 500;
         private readonly float height = 700;

@@ -11,7 +11,7 @@ namespace Data
         private bool isRunning;
         private int id;
         public override event EventHandler? ChangedPosition;
-
+        private Logger logger = Logger.getLogger();
         public Ball(Vector2 position, Vector2 speed, bool isRunning, int id)
         {
             this.position = position;
@@ -50,7 +50,7 @@ namespace Data
                     OnChangedPosition();
                     DateTime timestamp = DateTime.Now;
                     Vector4 ballInfo = this.getPositionAndSpeed();
-                    Logger.logBallInfo(id, ballInfo, timestamp);
+                    logger.logBallInfo(id, ballInfo, timestamp);
                 }
                 await Task.Delay(5);
                 
