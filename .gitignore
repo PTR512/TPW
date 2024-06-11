@@ -402,3 +402,4 @@ FodyWeavers.xsd
 /.lutignore
 /Kalkulator.lutconfig
 /Kalkulator.sln
+/logs.json
