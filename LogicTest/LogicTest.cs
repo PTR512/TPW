@@ -14,7 +14,7 @@ namespace LogicTest
             Mock<Data.Abstract.IBall> BallSim = new Mock<Data.Abstract.IBall>();
             BallSim.Setup(b => b.StopBall());
             BallSim.Setup(b => b.LetBallMove());
-            BallSim.Setup(b => b.getPositionAndSpeed()).Returns(new Vector4(1,1,1,1));
+            BallSim.Setup(b => b.getPositionAndSpeed()).Returns(new Vector4(1, 1, 1, 1));
 
             Mock<Data.Abstract.DataAPI> DataAPISim = new Mock<Data.Abstract.DataAPI>();
             DataAPISim.Setup(d => d.GetTableWidth()).Returns(500);

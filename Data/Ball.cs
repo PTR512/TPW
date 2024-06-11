@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
-using System.Runtime.InteropServices;
 
 namespace Data
 {
@@ -53,9 +52,9 @@ namespace Data
                     logger.logBallInfo(id, ballInfo, timestamp);
                 }
                 await Task.Delay(5);
-                
+
                 end = stopWatch.Elapsed.TotalMilliseconds;
-                multiplier = (float) ((end - start) / 5);
+                multiplier = (float)((end - start) / 5);
             }
 
         }

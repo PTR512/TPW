@@ -1,14 +1,7 @@
-﻿using Data.Abstract;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Numerics;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks.Dataflow;
 
 namespace Data
 {
@@ -46,17 +39,15 @@ namespace Data
         private async void saveLogToFile()
         {
 
-                using (StreamWriter file = new StreamWriter($"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName}/logs.json", append: true, Encoding.UTF8))
+            using (StreamWriter file = new StreamWriter($"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName}/logs.json", append: true, Encoding.UTF8))
+            {
+                file.AutoFlush = true;
+                foreach (var item in blockingCollection.GetConsumingEnumerable())
                 {
-                    foreach (var item in blockingCollection.GetConsumingEnumerable())
-                    {
                     string ballInfoString = JsonSerializer.Serialize(item);
-                    file.WriteLine(ballInfoString);
-                    }
-                
+                    await file.WriteLineAsync(ballInfoString);
                 }
-
-            System.Diagnostics.Debug.WriteLine("Wykonuje sie");
+            }
         }
 
         public void Dispose()

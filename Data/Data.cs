@@ -3,8 +3,8 @@
     internal class Data : Abstract.DataAPI
 
     {
-        public Data() {}
-        
+        public Data() { }
+
         private readonly float width = 500;
         private readonly float height = 700;
         private readonly float ballRadius = 30;

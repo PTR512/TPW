@@ -81,7 +81,7 @@ internal class BallManager : Abstract.LogicAPI
                     return;
                 }
             }
-            
+
         }
     }
     private void ElasticCollision(IBall ball1, Vector4 positionAndSpeed1, IBall ball2, Vector4 positionAndSpeed2)
@@ -91,7 +91,7 @@ internal class BallManager : Abstract.LogicAPI
         float y1 = positionAndSpeed1[1];
         float xSpeed1 = positionAndSpeed1[2];
         float ySpeed1 = positionAndSpeed1[3];
-        
+
         float x2 = positionAndSpeed2[0];
         float y2 = positionAndSpeed2[1];
         float xSpeed2 = positionAndSpeed2[2];
@@ -168,7 +168,7 @@ internal class BallManager : Abstract.LogicAPI
         return ballPositions;
     }
     // function for checking if balls are overlapping during generating random placement
-    private bool isOverlapping(float x1, float y1, float radius) 
+    private bool isOverlapping(float x1, float y1, float radius)
     {
         foreach (IBall Ball in Balls)
         {
